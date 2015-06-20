@@ -1,1 +1,1 @@
-See section 6 within the manual for instructions to setup and run sample code.
+Graph evaluation based on SIMCog-JS(http://sai.mindmodeling.org/simcog/index.html)
