@@ -1,0 +1,2701 @@
+;; jsMATB v2 Model
+;; 3/6/2015
+;;
+;; This is the second version of the jsMATB model.
+;; There will likely be several sub-versions of this model.
+;; The first, v2.0, sped up the key presses in the comm task.
+;;
+;; I know this model is wrong for the following reasons:
+;;   - The tracking task is has trouble clicking on a red circle when the comm task
+;;      manual response is ongoing.
+;;   - When the resources in a main tank go below/above threshold, the model checks
+;;      the state of the switches every time a resource task is resumed, even if
+;;      immediately after correcting switches to get the tank within range.
+;;   - The model does not setup the resource switches at the start of the task,
+;;      which is part of an "optimal" strategy.
+;;   - The model focuses on the comm task until it is done. Perhaps the model could interleave key clicks with other tasks, or somehow respond faster.
+
+(set-task "actr.tasks.ActrInterface.SIMCogACTR")
+
+(sgp :rus t :v t :tct t :act nil :epl t :ul t :bll 0.5 :ol t :motor-feature-prep-time 0.0 :mouse-fitts-coeff .05 :emma t)
+;; :esc t :randomize-time t :vpft t
+;; :pixels-per-inch
+;; :viewing-distance
+
+(add-dm
+    (channel-nav1
+        isa channel
+        content "OPS 1")
+    (channel-nav2
+        isa channel
+        content "OPS 2")
+    (channel-com1
+        isa channel
+        content "INT 1")
+    (channel-com2
+        isa channel
+        content "INT 2")
+    (freq-0
+        isa digit
+        content keypad-0)
+    (freq-1
+        isa digit
+        content keypad-1)
+    (freq-2
+        isa digit
+        content keypad-2)
+    (freq-3
+        isa digit
+        content keypad-3)
+    (freq-4
+        isa digit
+        content keypad-4)
+    (freq-5
+        isa digit
+        content keypad-5)
+    (freq-6
+        isa digit
+        content keypad-6)
+    (freq-7
+        isa digit
+        content keypad-7)
+    (freq-8
+        isa digit
+        content keypad-8)
+    (freq-9
+        isa digit
+        content keypad-9)
+    (ops1-ops2
+        isa comm-diff
+        start "OPS 1"
+        stop "OPS 2"
+        count 1
+        key down-arrow)
+    (ops1-int1
+        isa comm-diff
+        start "OPS 1"
+        stop "INT 1"
+        count 2
+        key down-arrow)
+    (ops1-int2
+        isa comm-diff
+        start "OPS 1"
+        stop "INT 2"
+        count 1
+        key up-arrow)
+    (ops2-ops1
+        isa comm-diff
+        start "OPS 2"
+        stop "OPS 1"
+        count 1
+        key up-arrow)
+    (ops2-int1
+        isa comm-diff
+        start "OPS 2"
+        stop "INT 1"
+        count 1
+        key down-arrow)
+    (ops2-int2
+        isa comm-diff
+        start "OPS 2"
+        stop "INT 2"
+        count 2
+        key down-arrow)
+    (int1-ops1
+        isa comm-diff
+        start "INT 1"
+        stop "OPS 1"
+        count 2
+        key down-arrow)
+    (int1-ops2
+        isa comm-diff
+        start "INT 1"
+        stop "OPS 2"
+        count 1
+        key up-arrow)
+    (int1-int2
+        isa comm-diff
+        start "INT 1"
+        stop "INT 2"
+        count 1
+        key down-arrow)
+    (int2-ops1
+        isa comm-diff
+        start "INT 2"
+        stop "OPS 1"
+        count 1
+        key down-arrow)
+    (int2-ops2
+        isa comm-diff
+        start "INT 2"
+        stop "OPS 2"
+        count 2
+        key down-arrow)
+    (int2-int1
+        isa comm-diff
+        start "INT 2"
+        stop "INT 1"
+        count 1
+        key up-arrow))
+
+(set-all-base-levels 10000)
+
+(start-hand-at-mouse)
+
+(set-hand-location left 4 0)
+
+
+;; Monitoring Green Light Sub-Task
+(p start-green-light
+    =goal>
+        ;;DISABLED
+        task monitor-green
+        response-lock nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    +visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-green-light
+    =goal>
+        task monitor-green
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p detected-green-light
+    =goal>
+        task monitor-green
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color light_green
+==>
+    -visual-location>
+    -visual>
+)
+
+(p didnt-detect-green-light
+    =goal>
+        task monitor-green
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color black
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f5)
+    !bind! =theta (get-theta left index f5)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p green-light-reponse-done
+    =goal>
+        task monitor-green
+        response-lock yes
+    ?manual>
+        state free
+==>
+    =goal>
+        response-lock nil
+)
+
+;; Monitoring Red Light Sub-Task
+(p start-red-light
+    =goal>
+        ;DISABLED
+        task monitor-red
+        response-lock nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    +visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-red-light
+    =goal>
+        task monitor-red
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p didnt-detect-red-light
+    =goal>
+        task monitor-red
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color black
+==>
+    -visual-location>
+    -visual>
+)
+
+(p detected-red-light
+    =goal>
+        task monitor-red
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color red
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f6)
+    !bind! =theta (get-theta left index f6)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p red-reponse-done
+    =goal>
+        task monitor-red
+        response-lock yes
+    ?manual>
+        state free
+==>
+    =goal>
+        response-lock nil
+)
+
+;; Slider 0
+(p start-gauge-0
+    =goal>
+        ;DISABLED
+        task monitor-slider0
+        response-lock nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    +visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-gauge-0
+    =goal>
+        task monitor-slider0
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p dont-respond-to-gauge-0
+    =goal>
+        task monitor-slider0
+        gaugeMin =gaugeMin
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        <= screen-y =gaugeMax
+        >= screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+==>
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-0-max
+    =goal>
+        task monitor-slider0
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        > screen-y =gaugeMax
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f1)
+    !bind! =theta (get-theta left index f1)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-0-min
+    =goal>
+        task monitor-slider0
+        gaugeMin =gaugeMin
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        < screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f1)
+    !bind! =theta (get-theta left index f1)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p gauge-0-reponse-done
+    =goal>
+        task monitor-slider0
+        response-lock yes
+    ?manual>
+        state free
+==>
+    =goal>
+        response-lock nil
+)
+
+;; Slider 1
+(p start-gauge-1
+    =goal>
+        ;DISABLED
+        task monitor-slider1
+        response-lock nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    +visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-gauge-1
+    =goal>
+        task monitor-slider1
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p dont-respond-to-gauge-1
+    =goal>
+        task monitor-slider1
+        gaugeMin =gaugeMin
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        <= screen-y =gaugeMax
+        >= screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+==>
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-1-max
+    =goal>
+        task monitor-slider1
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        > screen-y =gaugeMax
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f2)
+    !bind! =theta (get-theta left index f2)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-1-min
+    =goal>
+        task monitor-slider1
+        gaugeMin =gaugeMin
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        < screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f2)
+    !bind! =theta (get-theta left index f2)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p gauge-1-reponse-done
+    =goal>
+        task monitor-slider1
+        response-lock yes
+    ?manual>
+        state free
+==>
+    =goal>
+        response-lock nil
+)
+
+;; Slider 2
+(p start-gauge-2
+    =goal>
+        ;DISABLED
+        task monitor-slider2
+        response-lock nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    +visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-gauge-2
+    =goal>
+        task monitor-slider2
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p dont-respond-to-gauge-2
+    =goal>
+        task monitor-slider2
+        gaugeMin =gaugeMin
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        <= screen-y =gaugeMax
+        >= screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+==>
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-2-max
+    =goal>
+        task monitor-slider2
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        > screen-y =gaugeMax
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f3)
+    !bind! =theta (get-theta left index f3)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-2-min
+    =goal>
+        task monitor-slider2
+        gaugeMin =gaugeMin
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        < screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f3)
+    !bind! =theta (get-theta left index f3)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p gauge-2-reponse-done
+    =goal>
+        task monitor-slider2
+        response-lock yes
+    ?manual>
+        state free
+==>
+    =goal>
+        response-lock nil
+)
+
+;; Slider 3
+(p start-gauge-3
+    =goal>
+        ;DISABLED
+        task monitor-slider3
+        response-lock nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    +visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-gauge-3
+    =goal>
+        task monitor-slider3
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p dont-respond-to-gauge-3
+    =goal>
+        task monitor-slider3
+        gaugeMin =gaugeMin
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        <= screen-y =gaugeMax
+        >= screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+==>
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-3-max
+    =goal>
+        task monitor-slider3
+        gaugeMax =gaugeMax
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        > screen-y =gaugeMax
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f4)
+    !bind! =theta (get-theta left index f4)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p respond-to-gauge-3-min
+    =goal>
+        task monitor-slider3
+        gaugeMin =gaugeMin
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        < screen-y =gaugeMin
+    ?visual-location>
+        buffer requested
+    =visual>
+        isa rectangle
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        response-lock yes
+    !bind! =r (get-r left index f4)
+    !bind! =theta (get-theta left index f4)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p gauge-3-reponse-done
+    =goal>
+        task monitor-slider3
+        response-lock yes
+    ?manual>
+        state free
+==>
+    =goal>
+        response-lock nil
+)
+
+
+
+; Look for a red object
+;    If red object,
+;        Look at red object and move mouse to red object
+;        Click on red object
+;        Switch tasks
+;   If no red object,
+;      Look for green object,
+;      If green object,
+;         Look at green object and move mouse to green object
+;         Switch task
+;     If no green object,
+;         switch task
+;     
+;; NOTE: I will likely need a motor lock like the other tasks
+
+;; TRACKING
+
+;; TEH Discussion point
+;; Switching from red to green can be handled in many ways.
+;; 1) Wait for green before continuing. This is like the "locks"
+;;       used in the light tasks.
+;; 2) Use a "lock" like in the light tasks.
+;; 3) Spawn a new track-green task. This has implications
+;;      for using task switches as a measure of overload.
+;;  Other ways???
+
+;; TRACKING
+(p start-tracking
+    =goal>
+        task tracking
+        step nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    =goal>
+        step find-red
+    +visual-location>
+        color crimson
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p found-red-track
+    =goal>
+        task tracking
+        step find-red
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        ;;buffer empty
+    ?manual>
+        state free
+        ;processor free
+==>
+    =goal>
+        step move-to-red
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    +manual>
+        isa move-cursor
+        loc =visual-location
+    =visual-location>
+)
+
+(p click-red
+    =goal>
+        task tracking
+        step move-to-red
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+        ;;?visual>
+        ;;state free
+        ;;=visual>
+        ;;color crimson
+    ?manual>
+        ;state free
+        processor free
+==>
+    =goal>
+        step find-red
+    +manual>
+        isa click-mouse
+    +visual-location>
+        color crimson
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+
+(p no-red-track
+    =goal>
+        task tracking
+        step find-red
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        state error
+==>
+    =goal>
+        step find-green
+    +visual-location>
+        color yellow_green
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p finish-green
+    =goal>
+        task tracking
+        step find-green
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+        ;;?visual>
+        ;;state free
+    ?manual>
+        state free
+==>
+    =goal>
+        step nil
+        ;;+visual>
+        ;;isa       move-attention
+        ;;screen-pos =visual-location
+    +manual>
+        isa move-cursor
+        loc =visual-location
+    -visual-location>
+    -visual>
+)
+
+(p no-green-track
+    =goal>
+        task tracking
+        step find-green
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        state error
+==>
+    =goal>
+        step nil
+    -visual-location>
+    -visual>
+)
+
+;; RESOURCE TANK A
+
+(p resource-a-start
+    =goal>
+        ;DISABLED
+        task resource-a
+        step nil
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Tank A fill
+        color yellow_green
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-resoure-a
+    =goal>
+        task resource-a
+        step attend
+    =visual-location>
+        isa visual-location
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    =goal>
+        step evaluate
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p resource-a-dont-respond
+    =goal>
+        task resource-a
+        step evaluate
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+        rangemin =min
+        rangemax =max
+    =visual>
+        color yellow_green
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        >= screen-y =max
+        <= screen-y =min
+    ?visual-location>
+        buffer requested
+==>
+    =goal>
+        step nil
+    -visual-location>
+    -visual>
+)
+
+;; Start of response for TankA
+
+;; TankA is low
+(p resource-a-manual-respond-min-exceeded
+    =goal>
+        task resource-a
+        step evaluate
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+        rangemin =min
+        switch1xmin =sxmin
+        switch1xmax =sxmax
+        switch1ymin =symin
+        switch1ymax =symax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        > screen-y =min
+    ?visual-location>
+        buffer requested
+    =visual>
+        color yellow_green
+==>
+    =goal>
+        step attend
+        respond min
+    +visual-location>
+        isa visual-location
+        ;; Pump1
+        > screen-x =sxmin
+        < screen-x =sxmax
+        > screen-y =symin
+        < screen-y =symax
+)
+
+;; TankA is high
+(p resource-a-manual-respond-max-exceeded
+    =goal>
+        task resource-a
+        step evaluate
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+        rangemax =max
+        switch1xmin =sxmin
+        switch1xmax =sxmax
+        switch1ymin =symin
+        switch1ymax =symax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        < screen-y =max
+    ?visual-location>
+        buffer requested
+    =visual>
+        color yellow_green
+==>
+    =goal>
+        step attend
+        respond max
+    +visual-location>
+        isa visual-location
+        ;; Pump1
+        > screen-x =sxmin
+        < screen-x =sxmax
+        > screen-y =symin
+        < screen-y =symax
+)
+
+;; Pump1 is on and TankA is high
+;; Turn Pump1 off to get
+;; TankA below the 'max'.
+(p resource-a-manual-respond-max-exceeded-pump1
+    =goal>
+        task resource-a
+        step evaluate
+        respond max
+        switch1xmin =s1xmin
+        switch1xmax =s1xmax
+        switch1ymin =s1ymin
+        switch1ymax =s1ymax
+        switch2xmin =s2xmin
+        switch2xmax =s2xmax
+        switch2ymin =s2ymin
+        switch2ymax =s2ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump1
+        > screen-x =s1xmin
+        < screen-x =s1xmax
+        > screen-y =s1ymin
+        < screen-y =s1ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color yellow_green
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step attend
+    !bind! =r (get-r left index 1)
+    !bind! =theta (get-theta left index 1)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    +visual-location>
+        isa visual-location
+        ;; Pump2
+        > screen-x =s2xmin
+        < screen-x =s2xmax
+        > screen-y =s2ymin
+        < screen-y =s2ymax
+)
+
+;; Pump1 is off and TankA is low
+;; Turn Pump1 on to get
+;; TankA above the 'min'.
+(p resource-a-manual-respond-min-exceeded-pump1
+    =goal>
+        task resource-a
+        step evaluate
+        respond min
+        switch1xmin =s1xmin
+        switch1xmax =s1xmax
+        switch1ymin =s1ymin
+        switch1ymax =s1ymax
+        switch2xmin =s2xmin
+        switch2xmax =s2xmax
+        switch2ymin =s2ymin
+        switch2ymax =s2ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump1
+        > screen-x =s1xmin
+        < screen-x =s1xmax
+        > screen-y =s1ymin
+        < screen-y =s1ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color steel_blue
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step attend
+    !bind! =r (get-r left index 1)
+    !bind! =theta (get-theta left index 1)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    +visual-location>
+        isa visual-location
+        ;; Pump2
+        > screen-x =s2xmin
+        < screen-x =s2xmax
+        > screen-y =s2ymin
+        < screen-y =s2ymax
+)
+
+;; Pump1 is off or faulting and TankA is high
+;; Move on to Pump2
+(p resource-a-manual-no-response-pump1-a
+    =goal>
+        task resource-a
+        step evaluate
+        respond max
+        switch1xmin =s1xmin
+        switch1xmax =s1xmax
+        switch1ymin =s1ymin
+        switch1ymax =s1ymax
+        switch2xmin =s2xmin
+        switch2xmax =s2xmax
+        switch2ymin =s2ymin
+        switch2ymax =s2ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump1
+        > screen-x =s1xmin
+        < screen-x =s1xmax
+        > screen-y =s1ymin
+        < screen-y =s1ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color yellow_green
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Pump2
+        > screen-x =s2xmin
+        < screen-x =s2xmax
+        > screen-y =s2ymin
+        < screen-y =s2ymax
+)
+
+;; Pump1 is on or faulting and TankB is low
+;; Move on to Pump2
+(p resource-a-manual-no-response-pump1-b
+    =goal>
+        task resource-a
+        step evaluate
+        respond min
+        switch1xmin =s1xmin
+        switch1xmax =s1xmax
+        switch1ymin =s1ymin
+        switch1ymax =s1ymax
+        switch2xmin =s2xmin
+        switch2xmax =s2xmax
+        switch2ymin =s2ymin
+        switch2ymax =s2ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump1
+        > screen-x =s1xmin
+        < screen-x =s1xmax
+        > screen-y =s1ymin
+        < screen-y =s1ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color steel_blue
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Pump2
+        > screen-x =s2xmin
+        < screen-x =s2xmax
+        > screen-y =s2ymin
+        < screen-y =s2ymax
+)
+
+;; Pump2 is off
+;; Turn Pump2 on
+;; because it should always be on! ;-)
+(p resource-a-manual-respond-pump2-off-a
+    =goal>
+        task resource-a
+        step evaluate
+        switch2xmin =s2xmin
+        switch2xmax =s2xmax
+        switch2ymin =s2ymin
+        switch2ymax =s2ymax
+        switch5xmin =s5xmin
+        switch5xmax =s5xmax
+        switch5ymin =s5ymin
+        switch5ymax =s5ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump2
+        > screen-x =s2xmin
+        < screen-x =s2xmax
+        > screen-y =s2ymin
+        < screen-y =s2ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color steel_blue
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step attend
+    !bind! =r (get-r left index 2)
+    !bind! =theta (get-theta left index 2)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    +visual-location>
+        isa visual-location
+        ;; Pump5
+        > screen-x =s5xmin
+        < screen-x =s5xmax
+        > screen-y =s5ymin
+        < screen-y =s5ymax
+)
+
+;; Pump2 is already on or malfunctioning
+;; Move on to Pump5
+(p resource-a-manual-no-response-pump2
+    =goal>
+        task resource-a
+        step evaluate
+        switch2xmin =s2xmin
+        switch2xmax =s2xmax
+        switch2ymin =s2ymin
+        switch2ymax =s2ymax
+        switch5xmin =s5xmin
+        switch5xmax =s5xmax
+        switch5ymin =s5ymin
+        switch5ymax =s5ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump2
+        > screen-x =s2xmin
+        < screen-x =s2xmax
+        > screen-y =s2ymin
+        < screen-y =s2ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color steel_blue
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Pump5
+        > screen-x =s5xmin
+        < screen-x =s5xmax
+        > screen-y =s5ymin
+        < screen-y =s5ymax
+)
+
+;; Pump5 is off
+;; Turn Pump5 on
+;; because it should always be on.
+(p resource-a-manual-respond-pump5-off-a
+    =goal>
+        task resource-a
+        step evaluate
+        switch5xmin =s5xmin
+        switch5xmax =s5xmax
+        switch5ymin =s5ymin
+        switch5ymax =s5ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump5
+        > screen-x =s5xmin
+        < screen-x =s5xmax
+        > screen-y =s5ymin
+        < screen-y =s5ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color steel_blue
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step nil
+        respond nil
+    !bind! =r (get-r left index 5)
+    !bind! =theta (get-theta left index 5)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+;; Pump5 is on or malfunctioning
+;; Move on to next task
+(p resource-a-manual-no-response-pump5
+    =goal>
+        task resource-a
+        step evaluate
+        switch5xmin =s5xmin
+        switch5xmax =s5xmax
+        switch5ymin =s5ymin
+        switch5ymax =s5ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump5
+        > screen-x =s5xmin
+        < screen-x =s5xmax
+        > screen-y =s5ymin
+        < screen-y =s5ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color steel_blue
+    ?manual>
+        state free
+==>
+    =goal>
+        step nil
+        respond nil
+    -visual-location>
+    -visual>
+)
+
+
+
+
+;; RESOURCE Tank B
+
+(p resource-b-start
+    =goal>
+        ;DISABLED
+        task resource-b
+        step nil
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Tank B fill
+        color yellow_green
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p shift-attention-resoure-b
+    =goal>
+        task resource-b
+        step attend
+    =visual-location>
+        isa visual-location
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    =goal>
+        step evaluate
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p resource-b-dont-respond
+    =goal>
+        task resource-b
+        step evaluate
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+        rangemin =min
+        rangemax =max
+    =visual>
+        color yellow_green
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        >= screen-y =max
+        <= screen-y =min
+    ?visual-location>
+        buffer requested
+==>
+    =goal>
+        step nil
+    -visual-location>
+    -visual>
+)
+
+;; Start of response for TankB
+
+;; TankB is low
+(p resource-b-manual-respond-min-exceeded
+    =goal>
+        task resource-b
+        step evaluate
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+        rangemin =min
+        switch3xmin =sxmin
+        switch3xmax =sxmax
+        switch3ymin =symin
+        switch3ymax =symax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        > screen-y =min
+    ?visual-location>
+        buffer requested
+    =visual>
+        color yellow_green
+==>
+    =goal>
+        step attend
+        respond min
+    +visual-location>
+        isa visual-location
+        ;; Pump3
+        > screen-x =sxmin
+        < screen-x =sxmax
+        > screen-y =symin
+        < screen-y =symax
+)
+
+;; TankB is high
+(p resource-b-manual-respond-max-exceeded
+    =goal>
+        task resource-b
+        step evaluate
+        tankxmin =xmin
+        tankxmax =xmax
+        tankymin =ymin
+        tankymax =ymax
+        rangemax =max
+        switch3xmin =sxmin
+        switch3xmax =sxmax
+        switch3ymin =symin
+        switch3ymax =symax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        < screen-y =max
+    ?visual-location>
+        buffer requested
+    =visual>
+        color yellow_green
+==>
+    =goal>
+        step attend
+        respond max
+    +visual-location>
+        isa visual-location
+        ;; Pump3
+        > screen-x =sxmin
+        < screen-x =sxmax
+        > screen-y =symin
+        < screen-y =symax
+)
+
+;; Pump3 is on and TankB is high
+;; Turn Pump3 off to get
+;; TankB below the 'max'.
+(p resource-b-manual-respond-max-exceeded-pump3
+    =goal>
+        task resource-b
+        step evaluate
+        respond max
+        switch3xmin =s3xmin
+        switch3xmax =s3xmax
+        switch3ymin =s3ymin
+        switch3ymax =s3ymax
+        switch4xmin =s4xmin
+        switch4xmax =s4xmax
+        switch4ymin =s4ymin
+        switch4ymax =s4ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump1
+        > screen-x =s3xmin
+        < screen-x =s3xmax
+        > screen-y =s3ymin
+        < screen-y =s3ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color yellow_green
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step attend
+    !bind! =r (get-r left index 3)
+    !bind! =theta (get-theta left index 3)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    +visual-location>
+        isa visual-location
+        ;; Pump4
+        > screen-x =s4xmin
+        < screen-x =s4xmax
+        > screen-y =s4ymin
+        < screen-y =s4ymax
+)
+
+;; Pump3 is off and TankB is low
+;; Turn Pump3 on to get
+;; TankB above the 'min'.
+(p resource-b-manual-respond-min-exceeded-pump3
+    =goal>
+        task resource-b
+        step evaluate
+        respond min
+        switch3xmin =s3xmin
+        switch3xmax =s3xmax
+        switch3ymin =s3ymin
+        switch3ymax =s3ymax
+        switch4xmin =s4xmin
+        switch4xmax =s4xmax
+        switch4ymin =s4ymin
+        switch4ymax =s4ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump3
+        > screen-x =s3xmin
+        < screen-x =s3xmax
+        > screen-y =s3ymin
+        < screen-y =s3ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color steel_blue
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step attend
+    !bind! =r (get-r left index 3)
+    !bind! =theta (get-theta left index 3)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    +visual-location>
+        isa visual-location
+        ;; Pump4
+        > screen-x =s4xmin
+        < screen-x =s4xmax
+        > screen-y =s4ymin
+        < screen-y =s4ymax
+)
+
+;; Pump3 is off or faulting and TankB is high
+;; Move on to Pump4
+(p resource-b-manual-no-response-pump3-a
+    =goal>
+        task resource-b
+        step evaluate
+        respond max
+        switch3xmin =s3xmin
+        switch3xmax =s3xmax
+        switch3ymin =s3ymin
+        switch3ymax =s3ymax
+        switch4xmin =s4xmin
+        switch4xmax =s4xmax
+        switch4ymin =s4ymin
+        switch4ymax =s4ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump3
+        > screen-x =s3xmin
+        < screen-x =s3xmax
+        > screen-y =s3ymin
+        < screen-y =s3ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color yellow_green
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Pump4
+        > screen-x =s4xmin
+        < screen-x =s4xmax
+        > screen-y =s4ymin
+        < screen-y =s4ymax
+)
+
+;; Pump3 is on or faulting and TankB is low
+;; Move on to Pump4
+(p resource-b-manual-no-response-pump3-b
+    =goal>
+        task resource-b
+        step evaluate
+        respond min
+        switch3xmin =s3xmin
+        switch3xmax =s3xmax
+        switch3ymin =s3ymin
+        switch3ymax =s3ymax
+        switch4xmin =s4xmin
+        switch4xmax =s4xmax
+        switch4ymin =s4ymin
+        switch4ymax =s4ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump3
+        > screen-x =s3xmin
+        < screen-x =s3xmax
+        > screen-y =s3ymin
+        < screen-y =s3ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color steel_blue
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Pump4
+        > screen-x =s4xmin
+        < screen-x =s4xmax
+        > screen-y =s4ymin
+        < screen-y =s4ymax
+)
+
+;; Pump4 is off
+;; Turn Pump4 on
+;; because it should always be on! ;-)
+(p resource-b-manual-respond-pump4-off
+    =goal>
+        task resource-b
+        step evaluate
+        switch4xmin =s4xmin
+        switch4xmax =s4xmax
+        switch4ymin =s4ymin
+        switch4ymax =s4ymax
+        switch6xmin =s6xmin
+        switch6xmax =s6xmax
+        switch6ymin =s6ymin
+        switch6ymax =s6ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump2
+        > screen-x =s4xmin
+        < screen-x =s4xmax
+        > screen-y =s4ymin
+        < screen-y =s4ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color steel_blue
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step attend
+    !bind! =r (get-r left index 4)
+    !bind! =theta (get-theta left index 4)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    +visual-location>
+        isa visual-location
+        ;; Pump6
+        > screen-x =s6xmin
+        < screen-x =s6xmax
+        > screen-y =s6ymin
+        < screen-y =s6ymax
+)
+
+;; Pump4 is already on or malfunctioning
+;; Move on to Pump6
+(p resource-b-manual-no-response-pump4
+    =goal>
+        task resource-b
+        step evaluate
+        switch4xmin =s4xmin
+        switch4xmax =s4xmax
+        switch4ymin =s4ymin
+        switch4ymax =s4ymax
+        switch6xmin =s6xmin
+        switch6xmax =s6xmax
+        switch6ymin =s6ymin
+        switch6ymax =s6ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump4
+        > screen-x =s4xmin
+        < screen-x =s4xmax
+        > screen-y =s4ymin
+        < screen-y =s4ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color steel_blue
+==>
+    =goal>
+        step attend
+    +visual-location>
+        isa visual-location
+        ;; Pump6
+        > screen-x =s6xmin
+        < screen-x =s6xmax
+        > screen-y =s6ymin
+        < screen-y =s6ymax
+)
+
+;; Pump6 is off
+;; Turn Pump6 on
+;; because it should always be on.
+(p resource-b-manual-respond-pump6-off
+    =goal>
+        task resource-b
+        step evaluate
+        switch6xmin =s6xmin
+        switch6xmax =s6xmax
+        switch6ymin =s6ymin
+        switch6ymax =s6ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump6
+        > screen-x =s6xmin
+        < screen-x =s6xmax
+        > screen-y =s6ymin
+        < screen-y =s6ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color steel_blue
+    ?manual>
+        state free
+        - last-command point-hand-at-key
+        - last-command punch
+==>
+    =goal>
+        step nil
+        respond nil
+    !bind! =r (get-r left index 6)
+    !bind! =theta (get-theta left index 6)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+;; Pump6 is on or malfunctioning
+;; Move on to next task
+(p resource-b-manual-no-response-pump6
+    =goal>
+        task resource-b
+        step evaluate
+        switch6xmin =s6xmin
+        switch6xmax =s6xmax
+        switch6ymin =s6ymin
+        switch6ymax =s6ymax
+    =visual-location>
+        isa visual-location
+        ;; Pump6
+        > screen-x =s6xmin
+        < screen-x =s6xmax
+        > screen-y =s6ymin
+        < screen-y =s6ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        - color steel_blue
+    ?manual>
+        state free
+==>
+    =goal>
+        step nil
+        respond nil
+    -visual-location>
+    -visual>
+)
+
+
+;; Comm task
+
+(p start-comm
+    =goal>
+        ;DISABLED
+        task comm
+        response-lock nil
+        step nil
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?visual-location>
+        - buffer requested
+        - state error
+==>
+    =goal>
+        step attend-comm-target-channel
+    +visual-location>
+        isa visual-location
+        kind text
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        screen-x lowest
+        screen-y lowest
+)
+
+(p shift-attention-to-comm-target-channel
+    =goal>
+        task comm
+        step attend-comm-target-channel
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p no-comm-target-channel
+    =goal>
+        task comm
+        step attend-comm-target-channel
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color white
+==>
+    =goal>
+        step nil
+    -visual-location>
+    -visual>
+)
+
+(p find-comm-target-freq
+    =goal>
+        task comm
+        step attend-comm-target-channel
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        color crimson
+        value =channel
+==>
+    =goal>
+        step attend-comm-target-freq
+        channel =channel
+    +visual-location>
+        kind text
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+        > screen-x current
+        screen-y current
+)
+
+(p shift-attention-comm-target-freq
+    =goal>
+        task comm
+        step attend-comm-target-freq
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p find-selected-comm-bounding-box
+    =goal>
+        task comm
+        step attend-comm-target-freq
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual-location>
+        buffer requested
+    =visual>
+        value =freq
+==>
+    =goal>
+        step find-selected-channel-1
+        freq =freq
+    +visual-location>
+        bordercolor crimson
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p find-selected-channel
+    =goal>
+        task comm
+        step find-selected-channel-1
+    =visual-location>
+        isa visual-location
+        screen-x =x
+        screen-y =y
+    ?visual-location>
+        buffer requested
+==>
+    =goal>
+        step find-selected-channel-2
+    +visual-location>
+        kind text
+        < screen-x =x
+        screen-y =y
+        :nearest =visual-location
+)
+
+(p attend-selected-channel
+    =goal>
+        task comm
+        step find-selected-channel-2
+    =visual-location>
+    ?visual-location>
+        buffer requested
+    ?visual>
+        state free
+        buffer empty
+==>
+    =goal>
+        step attend-selected-channel
+    +visual>
+        isa move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p find-freq-to-change
+    =goal>
+        task comm
+        step attend-selected-channel
+        channel =channel
+    =visual-location>
+        screen-x =x
+        screen-y =y
+    ?visual-location>
+        buffer requested
+    =visual>
+        value =channel
+==>
+    =goal>
+        step find-freq-to-change
+    +visual-location>
+        kind text
+        > screen-x =x
+        screen-y =y
+)
+
+(p attend-freq-to-change
+    =goal>
+        task comm
+        step find-freq-to-change
+    =visual-location>
+    ?visual-location>
+        buffer requested
+==>
+    =goal>
+        step check-freq
+    +visual>
+        isa move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p not-at-correct-comm-channel-1
+    =goal>
+        task comm
+        step attend-selected-channel
+        channel =stop
+    =visual-location>
+        screen-x =x
+        screen-y =y
+    ?visual-location>
+        buffer requested
+    =visual>
+        - value =stop
+        value =start
+    ?retrieval>
+        state free
+        buffer empty
+    ?manual>
+        state free
+==>
+    =goal>
+        step recall-comm-diff
+    +retrieval>
+        isa comm-diff
+        start =start
+        stop =stop
+        ;+manual>
+        ;isa point-hand-at-key
+        ;hand left
+        ;to-key down-arrow
+    =visual-location>
+        ;=visual>
+)
+
+(p not-at-correct-comm-channel-2
+    =goal>
+        task comm
+        step recall-comm-diff
+        channel =channel
+    =retrieval>
+        isa comm-diff
+        count =count
+        key =key
+    ?manual>
+        state free
+        ;processor free
+==>
+    =goal>
+        step change-channel
+        count =count
+        key =key
+    +manual>
+        isa point-hand-at-key
+        hand left
+        to-key =key
+)
+
+(p not-at-correct-comm-channel-3
+    =goal>
+        task comm
+        step change-channel
+        channel =channel
+        count =count
+        > count 0
+        key =key
+    ?manual>
+        state free
+        ;processor free
+==>
+    !bind! =togo (- =count 1)
+    =goal>
+        count =togo
+    +manual>
+        isa punch
+        hand left
+        finger index
+)
+
+(p should-be-at-correct-comm-channel
+    =goal>
+        task comm
+        step change-channel
+        channel =channel
+        count 0
+        xmin =xmin
+        xmax =xmax
+        ymin =ymin
+        ymax =ymax
+    ?manual>
+        state free
+==>
+    =goal>
+        step find-selected-channel-1
+    +visual-location>
+        bordercolor crimson
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+(p attending-correct-freq
+    =goal>
+        task comm
+        step check-freq
+        freq =freq
+    =visual>
+        isa text
+        value =freq
+==>
+    =goal>
+        step nil
+        freq nil
+        channel nil
+        response-lock yes
+    !bind! =r (get-r left index return)
+    !bind! =theta (get-theta left index return)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)
+
+(p comm-reponse-done
+    =goal>
+        task comm
+        response-lock yes
+    ?manual>
+        state free
+==>
+    =goal>
+        response-lock nil
+)
+
+(p not-attending-correct-freq
+    =goal>
+        task comm
+        step check-freq
+        freq =target-freq
+    =visual>
+        isa text
+        - value =target-freq
+        value =current-freq
+==>
+    !bind! =togo (get-freq-diff =target-freq =current-freq)
+    =goal>
+        step move-hand-to-correct-key
+        count =togo
+)
+
+(p change-freq-move-hand-negative
+    =goal>
+        task comm
+        step move-hand-to-correct-key
+        < count 0
+    ?manual>
+        state free
+==>
+    =goal>
+        step change-freq
+    +manual>
+        isa point-hand-at-key
+        hand left
+        to-key left-arrow
+)
+
+(p change-freq-move-hand-positive
+    =goal>
+        task comm
+        step move-hand-to-correct-key
+        > count 0
+    ?manual>
+        state free
+==>
+    =goal>
+        step change-freq
+    +manual>
+        isa point-hand-at-key
+        hand left
+        to-key right-arrow
+)
+
+(p change-freq-move-hand-done
+    =goal>
+        task comm
+        step move-hand-to-correct-key
+        count 0
+==>
+    =goal>
+        step change-freq
+)
+
+
+;; TEH: A note about using tct task switching as a metric
+;;         for workload. If the model changes channels
+;;         and frequency by recalls and computations
+;;         without needing to keep a lock on visual
+;;         information, then there will be many more
+;;         task switchings. If the model keeps and moves
+;;         the eyes for every comm channel or freq change
+;;         then there will be many fewer task switchings.
+;;         I should investigate the tradeoff between performance
+;;         differences and task switchings using these two
+;;         methods of responding to the comm task.
+;; TEH: MAJOR NOTE - The model is too slow to press the keys
+;;          when the frequency change is large.
+;;          ACT-R may need a "burst" key press.
+(p change-freq-negative
+    =goal>
+        task comm
+        step change-freq
+        < count 0
+        count =count
+    ?manual>
+        state free
+        ;processor free
+==>
+    !bind! =togo (+ =count 1)
+    =goal>
+        count =togo
+    +manual>
+        isa punch
+        hand left
+        finger index
+)
+
+(p change-freq-positive
+    =goal>
+        task comm
+        step change-freq
+        > count 0
+        count =count
+    ?manual>
+        state free
+        ;processor free
+==>
+    !bind! =togo (- =count 1)
+    =goal>
+        count =togo
+    +manual>
+        isa punch
+        hand left
+        finger index
+)
+
+(p change-freq-done
+    =goal>
+        task comm
+        step change-freq
+        count 0
+    ?manual>
+        state free
+        ;processor free
+==>
+    =goal>
+        step nil
+        count nil
+        response-lock yes
+    !bind! =r (get-r left index return)
+    !bind! =theta (get-theta left index return)
+    +manual>
+        isa peck
+        hand left
+        finger index
+        r =r
+        theta =theta
+    -visual-location>
+    -visual>
+)

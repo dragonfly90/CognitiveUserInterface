@@ -1,0 +1,1 @@
+This folder contains the contents needed for client side implementation of SIMCog.js. The generic client (SIMCog.js) and jQuery (jquery-1.11.0.js) are provided. For an example client implementation open “Static mMATB” . Instructions for running the example can be found in the readMe.txt within the folder. See manual Section 6 for additional details.

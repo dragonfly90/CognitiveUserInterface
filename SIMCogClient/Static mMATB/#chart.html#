@@ -1,0 +1,203 @@
+<head>
+	<link href = "MAT-B_Styles.css" rel="stylesheet">
+</head>
+
+<body>
+<script src="d3/d3.v3.min.js"></script>
+<script src="d3/d3.chart.min.js"></script>
+<script src="MAT-B_Charts.js"></script>
+
+<script src="./SIMCogMATB.js"></script>
+<script src="./jquery-1.11.0.js"></script>
+
+<script>
+			scale.range([0,window.innerHeight-100]);
+		scale.domain([0,height]);
+	}
+	else{
+		scale.range([0,window.innerWidth-100]);
+		scale.domain([0,width]);
+	}
+	
+
+		var monitor_param = {min: 8000,max: 14000};
+
+		monitor_svg = get_generic_svg(
+			body,
+			650, 650,
+			scale(1),scale(1),
+			{top: scale(.03), right: scale(.03), bottom: scale(.03), left: scale(.03)});
+
+		var monitor_chart = monitor_svg.chart("Monitoring").eventFunc(function(){rand = Math.random()*(monitor_param.max-monitor_param.min); return rand+monitor_param.min;}).startFunc(10000)
+			.range([3,5]).tick(7);
+		
+		var monitor_data = {scales: [{button: 112, key: "F1", slider_interval: 1500, prob: 1},
+						{button: 113, key: "F2", slider_interval: 1400, prob: 1},
+						{button: 114, key: "F3", slider_interval: 1000, prob: 1},
+						{button: 115, key: "F4", slider_interval: 1600, prob: 1}],
+
+			buttons: [{color: "lightgreen", button: 116, key: "F5", alert_color:"black", autoCorrect: 8000},
+						{color: "black", button: 117, key: "F6", alert_color:"red", autoCorrect: 8000}]
+			};
+
+		
+		
+		monitor_chart.when("alert", function(args){});
+		monitor_chart.when("timeout", function(args){});
+		monitor_chart.when("response", function(args){});
+		
+		monitor_chart.draw(monitor_data);
+		
+	
+
+		var track_param = {min:8000, max:14000};
+		
+		track_svg = get_generic_svg(
+			body,
+			1300, 650,
+			scale(2), scale(1),
+			{top: scale(.03), right: scale(.03), bottom: scale(.03), left: scale(.03)});
+			
+		var track_chart = track_svg.chart("Tracking").eventFunc(function(){rand = Math.random()*(track_param.max-track_param.min); return rand+track_param.min;}).startFunc(10000)
+									.refreshRate(100);
+				
+		track_svg.insert("circle", "g")
+				.attr("r", track_svg.h/4)
+				.attr("cx", track_svg.w/2)
+				.attr("cy", track_svg.h/2)
+				.style("stroke-width", "10px")
+				.style("stroke", "midnightblue")
+				.style("fill", "none");
+
+		track_chart.when("alert", function(args){});
+		track_chart.when("tick", function(args){});
+		track_chart.when("response", function(args){});
+		track_chart.when("timeout", function(args){});
+		track_chart.when("mouseMove", function(args){});
+		
+		// var track_data = {orbits: [{points: [{x:.25, y:.45}, {x:.25, y:.55}, {x:.75, y:.55},{x:.75, y:.45}], interval: 15000, radius:13},
+		// 		{points: [{x:.45, y:.25}, {x:.55, y:.25}, {x:.55, y:.75},{x:.45, y:.75}], interval: 15000, radius:13},]};
+
+		var track_data = {
+			orbits: [
+				{points: [{x:0.357,y:0.152},{x:0.342,y:0.179},{x:0.643,y:0.848},{x:0.658,y:0.821}], interval: 30000, radius:13, prob : 1},
+				{points: [{x:0.28,y:0.402},{x:0.277,y:0.442},{x:0.72,y:0.598},{x:0.723,y:0.558}],   interval: 30000, radius:13, prob : 1},
+				{points: [{x:0.28,y:0.597},{x:0.285,y:0.636},{x:0.72,y:0.403},{x:0.715,y:0.364}],   interval: 30000, radius:13, prob : 1}
+			]
+		};
+
+		
+
+		track_chart.draw(track_data);	
+
+		var comm_param = {min: 8000, max: 14000};
+		
+		var comm_svg = get_generic_svg(
+				body,
+				650, 650,
+				scale(1), scale(1),
+				{top: scale(.03), right: scale(.03), bottom: scale(.03), left: scale(.03)});
+		
+		var comm_chart = comm_svg.chart("Communication").eventFunc(function(){rand = Math.random()*(comm_param.max-comm_param.min); return rand+comm_param.min;}).startFunc(10000).responseTime(5000);
+		
+		comm_chart.when("alert", function(args){});
+		comm_chart.when("timeout", function(args){});
+		comm_chart.when("response", function(args){});
+	
+	
+		
+		var comm_data = {channels: [{name: "OPS 1", avalibleFrequency: [1173,1231,1123,1131], prob : 1},
+					{name: "OPS 2", avalibleFrequency: [1235,1231,1123,1131], prob : 1},
+					{name: "INT 1", avalibleFrequency: [1141,1231,1123,1131], prob : 1},
+					{name: "INT 2", avalibleFrequency: [1259,1231,1123,1131], prob : 1}
+					],
+			target: {name: "OPS 1",frequency:1173},
+			controller: {indexUp:40,indexDown:38,frequencyUp:37,frequencyDown:39,accept:13}
+			};
+
+		
+		
+		comm_chart.draw(comm_data);
+		
+		manage_param = {min: 8000, max:14000};
+
+		var resource_svg = get_generic_svg(
+			body,
+			1300, 650,
+			scale(2), scale(1),
+			{top: scale(.03), right: scale(.03), bottom: scale(.03), left: scale(.03)});
+			
+		resource_chart = resource_svg.chart("Resource").eventFunc(function(){rand = Math.random()*(manage_param.max-manage_param.min); return rand+manage_param.min;})
+			.refreshRate(100).startFunc(10000);
+		
+		// var tankA = {label: "A", x:3 , y: 8.75, width:4 , height: 3.75, decayRate: .05, startingResource: 500, maxResource: 10000, targetRangeMax:2750 ,targetRangeMin:2250};
+		// var tankB = {label: "B", x:11 , y: 8.75, width:4 , height: 3.75, decayRate: .05, startingResource: 2500, maxResource: 4000, targetRangeMax:2750 ,targetRangeMin:2250};
+		// var tankC = {label: "C", x:2 , y: 3, width:2 , height: 2, decayRate: 0, startingResource: 1000, maxResource: 2000};
+		// var tankD = {label: "D", x:10 , y: 3, width:2 , height: 2, decayRate: 0, startingResource: 1000, maxResource: 2000};
+
+		// var generator1 = {label: "S1", resource: Number.POSITIVE_INFINITY, cx: 7, cy: 2, r: 1};
+		// var generator2 = {label: "S2", resource: Number.POSITIVE_INFINITY, cx: 15, cy: 2, r: 1};
+		
+		var resource_data = {tanks: [{label: "A", x:3 , y: 8.75, width:4 , height: 3.75, decayRate: .0125, startingResource: 2400, maxResource: 4000, targetRangeMax:2800 ,targetRangeMin:2100, index : 0},
+									{label: "B", x:11 , y: 8.75, width:4 , height: 3.75, decayRate: .0125, startingResource: 2500, maxResource: 4000, targetRangeMax:2750 ,targetRangeMin:2250, index : 1},
+									{label: "C", x:2 , y: 3, width:2 , height: 2, decayRate: 0, startingResource: 1000, maxResource: 2000, index : 2},
+									{label: "D", x:10 , y: 3, width:2 , height: 2, decayRate: 0, startingResource: 1000, maxResource: 2000, index : 3}],
+				generators: [{label: "S1", resource: Number.POSITIVE_INFINITY, cx: 7, cy: 2, r: 1,index:100},
+								{label: "S2", resource: Number.POSITIVE_INFINITY, cx: 15, cy: 2, r: 1, index : 101}],
+				switches:[{source: 2, target: 0, transferRate:.008, x1: 3.5, y1: 5, x2: 3.5, y2: 3, textX: 2.5, textY: 3.9, rotation: -90, on:0, key:49, keyboard: "1", repairTime: 10000, prob : 1},
+									{source: 100, target: 0, transferRate:.008, x1: 6.5, y1: 5, x2: 6.5, y2: 2.85, textX: 5.5, textY: 3.9, rotation: -90, on:0, key: 50, keyboard: "2", repairTime: 10000, prob : 1},
+									{source: 3, target: 1, transferRate:.008, x1: 11.5, y1: 5, x2: 11.5, y2: 3, textX: 10.5, textY: 3.9, rotation: -90, on:0, key: 51, keyboard: "3", repairTime: 10000, prob : 1},
+									{source: 101, target: 1, transferRate:.008, x1: 14.5, y1: 5, x2: 14.5, y2: 2.85, textX: 13.5, textY: 3.9, rotation: -90, on:0, key: 52, keyboard: "4", repairTime: 10000, prob : 1},
+									{source: 100, target: 2, transferRate:.00133, x1: 4, y1: 2, x2: 6, y2: 2, on:0, textX: 4.9, textY: 1, rotation: 180, key: 53, keyboard: "5", repairTime: 10000, prob : 1},
+									{source: 101, target: 3, transferRate:.00133, x1: 12, y1: 2, x2: 14, y2: 2, on:0, textX: 12.9, textY: 1, rotation: 180, key: 54, keyboard: "6", repairTime: 10000, prob : 1},
+									{source: 0, target: 1, transferRate:.00833, x1: 7, y1: 7.75, x2: 11, y2: 7.75, on:0, textX: 8.85, textY: 8.5, rotation: 0, key: 55, keyboard: "7", repairTime: 10000, prob : 1},
+									{source: 1, target: 0, transferRate:.00833, x1: 7, y1: 6.25, x2: 11, y2: 6.25, on:0, textX: 8.85, textY: 5.25, rotation: 180, key: 56, keyboard: "8", repairTime: 10000, prob : 1}]
+							};
+
+
+		resource_data.switches.forEach(function(d){
+			if(d.source < 100){
+				d.source =resource_data.tanks[d.source]
+			}
+			else d.source = resource_data.generators[d.source - 100]
+
+			if(d.target < 100){
+				d.target =resource_data.tanks[d.target]
+			}
+			else d.target = resource_data.generators[d.target - 100]
+		});
+		
+		resource_chart.when("alert", function(args){});
+		resource_chart.when("tick", function(args){});
+		resource_chart.when("response", function(args){});
+		
+		resource_chart.draw(resource_data);
+	
+	d3.select(window).on("keydown",function(){
+		if(d3.event.keyCode==13){
+			comm_chart.accept();
+		}
+		else if(d3.event.keyCode==37){
+			comm_chart.frequencyDown();
+		}
+		else if(d3.event.keyCode==38){
+			comm_chart.indexDown();
+		}
+		else if(d3.event.keyCode==39){
+			comm_chart.frequencyUp();
+		}
+		else if(d3.event.keyCode==40){
+			comm_chart.indexUp();
+		}
+		else if(d3.event.keyCode>=112 && d3.event.keyCode<=115){
+			monitor_chart.resetSliders(d3.event.keyCode-112);
+		}
+		else if(d3.event.keyCode==116 || d3.event.keyCode==117){
+			monitor_chart.resetButtons(d3.event.keyCode-116);
+		}
+		else if(d3.event.keyCode>=49 && d3.event.keyCode<=56){
+			resource_chart.flipSwitch(d3.event.keyC
+
+</script>
+
+</body>

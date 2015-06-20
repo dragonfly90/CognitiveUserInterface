@@ -1,0 +1,1 @@
+This folder will contain model log files when they are specified to be created. See Section 8 of the manual for instructions to turn this on. Data logging is off by default in both the generic client and the MATB client.

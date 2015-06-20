@@ -1,0 +1,244 @@
+/* @override http://www.iccm2015.org/proceedings/style/style.css */
+
+/* BODY */
+
+@import url('http://fonts.googleapis.com/css?family=Raleway:600,400');
+
+body {
+	color:       black; 
+	background:  white;
+	font-family: Helvetica, Geneva, Tahoma, sans-serif;
+}
+
+a{
+	color: #cc0000;
+	text-decoration: none;
+}
+
+a:hover{
+	color: #990000;
+}
+
+a:visited{
+	color: #cc0000;
+}
+
+
+h1 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  font-family: ;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+
+/* HEADER */
+
+div {
+  margin: 0;
+  padding: 0;
+}
+
+div#logo {
+  float: left;
+  padding-bottom: 8px;
+}
+
+img {
+  border: 0;
+}
+
+div#title {
+  padding-top: 50px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
+div#menubar {
+  background-color: #bb3329;
+  font-size: 0.8em;
+  margin-bottom: 20px;
+}
+
+div#menubar ul {
+  text-align: right;
+  margin: 0px;
+  padding: 2px 8px 2px 2px;
+}
+
+div#menubar li {
+  display: inline;
+  list-style: none;
+  margin: 0px;
+  padding: 5px;
+  font-weight: normal;
+}
+
+div#menubar A {
+  color:#ffffff; 
+  text-decoration:none;
+  padding: 0px 3px 0px 3px;
+  margin: 0px;
+}
+
+div#menubar A:hover {
+  color:#000000; 
+  background:#ffffff; 
+}
+
+
+/* CONTENTS */
+
+p#abstract {
+  margin-left: 1.5em;
+    width: 750px;
+
+}
+
+ul {
+  list-style: none;
+  margin-top: 0em;
+  margin-left: 1.5em;
+  padding: 0px 0px 0px 0px;
+}
+
+li {
+  margin-top: 5px;
+}
+
+li#session { /* session */
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+li#session li { /* paper */
+  margin-top: 10px;
+  font-weight: normal;
+}
+
+li#session li li { /* author */
+  margin-top: 1px;
+}
+
+
+/* AUTHOR INDEX & REVIEWER LIST */
+
+table {
+  margin-left: 30px;
+}
+
+tr {
+}
+
+td {
+  vertical-align: top;
+  padding-right: 1em;
+}
+
+ul#papers {
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+
+ul#papers li {
+  margin-top: 0px;
+}
+
+#authorindex{
+	font-size: .95em;
+	line-height: 1.3em;
+}
+
+#authorindex li{
+	list-style-type: none;
+	list-style-position: inside;
+	padding-top: 0;
+	margin-top: 0;
+	padding-bottom: 7px;
+}
+#authorindex ul{
+	padding-top: 0;
+	margin-top: 0;
+}
+#authorindex td{
+	vertical-align: top;
+	padding-top: 5px;
+}
+
+#procday{
+	font-size: .9em;
+	line-height: 1.4em;
+	list-style-type: none;
+}
+
+ul#procday{
+	margin-left: 0;
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+#procday li{
+
+	list-style-type: none;
+	margin-left: 0;
+}
+
+#procday li ul li ul{
+	margin-left: 0;
+}
+#procday li ul li ul li{
+	margin-left: 0;
+}
+#procday li#session{
+	font-weight: bold;
+}
+#procday li#session ul{
+	font-weight: normal;
+	font-style: normal;
+}
+
+#procday li#session ul li ul{
+	margin-bottom: 12px;
+	margin-top: 0;
+}
+
+.newell_winner,
+.newell_hon{
+	text-transform: lowercase;
+	font-variant: small-caps;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+.newell_winner img, .newell_hon img{
+	width: 34px;
+	left: -34px;
+	position: relative;
+	top: 8px;
+}
+
+div.newell_hon{
+	height: 0;
+}
+
+#program{
+	margin-top: 30px;
+}
+
+#program img{
+	float: left;
+	margin-right: 25px;
+}
+
+#procday li#session ul li p{
+	margin: 0;
+}
+}

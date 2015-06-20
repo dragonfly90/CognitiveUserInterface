@@ -1,0 +1,1 @@
+This folder contains same productions for the example client provided in the download.

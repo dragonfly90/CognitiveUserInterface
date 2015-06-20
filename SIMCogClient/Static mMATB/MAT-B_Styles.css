@@ -1,0 +1,76 @@
+
+.background, .communication {
+	stroke-width: 5px;
+	stroke: midnightblue;
+}
+
+.background {
+	fill: steelblue;
+}
+
+
+.communication {
+	fill: black;
+}
+
+circle.tracking {
+	stroke-width: 2px;
+	fill: black;
+	stroke: midnightblue;
+}
+
+circle.tracking.active, .resource, .switches.on {
+	fill: yellowgreen;
+}
+
+circle.tracking.alert, text.communication.alert, .switches.alert {
+	fill:crimson;
+}
+
+text.monitoring,  text.resourceManagement, text.communication{
+	fill: white;
+	stroke-width: 0px;
+}
+
+text.communication {
+	font-size: 35px;
+}
+
+.highlighted {
+	stroke: crimson;
+}
+
+path, .monitoring, .resourceManagement {
+	fill:none;
+	stroke: white;
+}
+
+path {
+	stroke-width: 3px;
+}
+
+.monitoring {
+	stroke-width: 6px;
+}
+
+text.monitoring {
+	font-size: 40px;
+}
+
+.resourceManagement {
+	stroke-width: 5px;
+}
+
+.switches {
+	fill: steelblue;
+	stroke: white;
+	stroke-width: .6px;
+}
+
+text.resourceManagement{
+	font-size: 30px;
+}
+
+circle.resourceManagement{
+	fill: yellowgreen;
+}
