@@ -12,12 +12,13 @@ setTimeout(function(){
 
   screenObjects = [
   //screen object declaration here. specification in documentation.
-      {type : "Rectangle", id : "chart0", color:"steelblue", change : "static"}, //Newer inline styles in chrome.
-      {type : "Rectangle", id : "chart1", color:"steelblue", change : "static"},
-      {type : "Rectangle", id : "chart2", color:"steelblue", change : "static"}, //Newer inline styles in chrome.
-      {type : "Rectangle", id : "chart3", color:"steelblue", change : "static"},
-      {type : "Rectangle", id : "chart4", color:"steelblue", change : "static"}, //Newer inline styles in chrome.
-      {type : "Rectangle", id : "chart5", color:"steelblue", change : "static"}
+      //{type : "Line", id : "line1", width: 10, change : "static"}, //Newer inline styles in chrome.
+      //{type : "Line", id : "line2", width: 10, change : "static"},
+      //{type : "Line", id : "line3", width: 10, change : "static"}, //Newer inline styles in chrome.
+      {type : "Oval", id : "point1", color:"steelblue", change : "static"},
+      {type : "Oval", id : "point2", color:"steelblue", change : "static"}, //Newer inline styles in chrome.
+      {type : "Oval", id : "point3", color:"steelblue", change : "static"},
+      {type : "Oval" ,id : "point4", color:"steelblue", change : "static"}
   ];
 
 },1);
@@ -56,6 +57,53 @@ var dynamicEvent = new Array(); //List of dynamicUpdating items
 //  Place code to ready ACT-R commands to be sent at the start of model execution here
 var readyCommands = function(){
 
+    var tmp = getObjectXYHW("point1");
+    var string = "(add-dm (monitorPoint1 isa cpoint current point1 next point2 x ";
+    string += Math.floor(tmp.x+tmp.width/2);
+
+    string += " y ";
+    string += Math.floor(tmp.y+tmp.height/2);
+
+    string += "))";
+    modelCommands.push(string);
+
+
+
+    tmp = getObjectXYHW("point2");
+    string = "(add-dm (monitorPoint2 isa cpoint current point2 next point3 x ";
+    string += Math.floor(tmp.x+tmp.width/2);
+
+    string += " y ";
+    string += Math.floor(tmp.y+tmp.height/2);
+
+    string += "))";
+    modelCommands.push(string);
+
+    tmp = getObjectXYHW("point3");
+    string = "(add-dm (monitorPoint3 isa cpoint current point3 next point4 x ";
+    string += Math.floor(tmp.x+tmp.width/2);
+
+    string += " y ";
+    string += Math.floor(tmp.y+tmp.height/2);
+
+    string += "))";
+    modelCommands.push(string);
+
+
+    tmp = getObjectXYHW("point4");
+    string = "(add-dm (monitorPoint4 isa cpoint current point4 next endf x ";
+    string += Math.floor(tmp.x+tmp.width/2);
+
+    string += " y ";
+    string += Math.floor(tmp.y+tmp.height/2);
+
+    string += "))";
+    modelCommands.push(string);
+
+    string="(add-dm (first-goal isa search from point1 to point4)) ";
+    modelCommands.push(string);
+
+    modelCommands.push("(goal-focus first-goal)");
 }
 
 /////////////////////////////////////////////////
@@ -68,27 +116,27 @@ ws.onopen = function() {
     console.log("Opened connection with ACT-R server")
     var intialArray = new Array();
 
-    var s0 = getObjectXYHW("chart0");
+    //var s0 = getObjectXYHW("line1");
     //console.log(s0.x,s0.y + (s0.height / 2),s0.width);
 
-    //intialArray.push({id:"chart0", type:"Rectangle", color:"steelblue", x:s0.x,y:s0.y + (s0.height / 2),width:s0.width, height: 1});
+    //intialArray.push({id:"line1", type:"Line", color:"steelblue", x:s0.x,y:s0.y + (s0.height / 2),width:s0.width, height: 1});
 
-    var s0 = getObjectXYHW("chart1");
+    //var s0 = getObjectXYHW("chart1");
 
     //console.log(s0.x,s0.y + (s0.height / 2),s0.width);
 
     //intialArray.push({id:"chart1", type:"Rectangle", color:"steelblue", x:s0.x,y:s0.y + (s0.height / 2),width:s0.width, height: 1});
 
-    var s0 = getObjectXYHW("chart2");
+    //var s0 = getObjectXYHW("chart2");
     //intialArray.push({id:"chart2", type:"Rectangle", color:"steelblue", x:s0.x,y:s0.y + (s0.height / 2),width:s0.width, height: 1});
 
-    var s0 = getObjectXYHW("chart3");
+    //var s0 = getObjectXYHW("chart3");
     //intialArray.push({id:"chart3", type:"Rectangle", color:"steelblue", x:s0.x,y:s0.y + (s0.height / 2),width:s0.width, height: 1});
 
-    var s0 = getObjectXYHW("chart4");
+    //var s0 = getObjectXYHW("chart4");
     //intialArray.push({id:"chart4", type:"Rectangle", color:"steelblue", x:s0.x,y:s0.y + (s0.height / 2),width:s0.width, height: 1});
 
-    var s0 = getObjectXYHW("chart5");
+    //var s0 = getObjectXYHW("chart5");
     //intialArray.push({id:"chart5", type:"Rectangle", color:"steelblue", x:s0.x,y:s0.y + (s0.height / 2),width:s0.width, height: 1});
 
 

@@ -1,0 +1,136 @@
+(set-task "actr.tasks.ActrInterface.SIMCogACTR")
+
+(p start
+    =goal>
+        ISA         search
+        from  =currentpoint
+        minpoint   nil
+==>
+    =goal>
+        minpoint   =currentpoint
+    +retrieval>
+        ISA         cpoint
+        current      =currentpoint
+        !output!(=currentpoint)
+)
+
+(p init
+    =goal>
+        ISA         search
+        from  =currentpoint
+        miny nil
+        count nil
+    =retrieval>
+        ISA cpoint
+        current  =currentpoint
+        y  =yvalue
+==>
+    =goal>
+        count =currentpoint
+        miny  =yvalue
+    +retrieval>
+        ISA         cpoint
+        current      =currentpoint
+        !output!(=currentpoint)
+)
+
+(P increment1
+    =goal> 
+        ISA         search
+        count  =currentpoint
+        miny  =yvalue1
+        minpoint   =minpreviouspoint
+    =retrieval>
+        ISA         cpoint
+        current   =currentpoint
+        next   =nextpoint
+        y  =yvalue2
+        - next endf
+        < y =yvalue1
+==>
+    =goal>
+        count   =nextpoint
+        miny   =yvalue2
+        minpoint  =currentpoint
+    +retrieval>
+        ISA	cpoint
+        current       =nextpoint
+    !output!  (=currentpoint)
+)
+
+(P increment2
+    =goal> 
+        ISA         search
+        count  =currentpoint
+        miny  =yvalue1
+        minpoint   =minpreviouspoint
+    =retrieval>
+        ISA         cpoint
+        current   =currentpoint
+        next   =nextpoint
+        y  =yvalue2
+        - next endf
+        >= y =yvalue1
+==>
+    =goal>
+        count   =nextpoint
+        miny   =yvalue1
+        minpoint  =minpreviouspoint
+    +retrieval>
+        ISA	cpoint
+        current       =nextpoint
+    !output!  (=minpreviouspoint)
+)
+
+
+
+(P stopincrement1
+    =goal> 
+        ISA         search
+        miny  =yvalue1
+        minpoint   =minpreviouspoint
+        stopiter nil
+    =retrieval>
+        ISA         cpoint
+        current   =currentpoint
+        y  =yvalue2
+        < y =yvalue1
+        next endf
+==>
+    =goal>
+        count   =currentpoint
+        miny   =yvalue2
+        minpoint  =currentpoint
+        stopiter t
+    !output!  (=currentpoint)
+)
+
+(P stopincrement2
+    =goal> 
+        ISA         search
+        miny  =yvalue1
+        minpoint   =minpreviouspoint
+        stopiter nil
+    =retrieval>
+        ISA         cpoint
+        current   =currentpoint
+        y  =yvalue2
+        >= y =yvalue1
+        next endf
+==>
+    =goal>
+        count   =currentpoint
+        miny   =yvalue1
+        minpoint  =minpreviouspoint
+        stopiter t
+    !output!  (=minpreviouspoint)
+)
+
+
+(P stop
+    =goal>
+        ISA search
+        stopiter t
+==>
+    -goal>
+)

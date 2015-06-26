@@ -1,0 +1,56 @@
+(set-task "actr.tasks.ActrInterface.SIMCogACTR") 
+
+(add-dm
+    (start isa chunk)(adadad isa chunk)
+    (respond isa chunk)(find-location isa chunk)
+    (goal isa read-bar state start))
+
+(p find-bar
+    =goal> 
+        ISA read-bar
+        state start
+==>
+    +visual-location>
+        ISA visual-location
+        :attended nil
+    =goal>
+        state find-location
+)
+
+
+(p attend-bar
+    =goal>
+        ISA read-bar
+        state find-location
+    =visual-location>
+        ISA visual-location
+    ?visual>
+        state free
+==>
+    +visual>
+        ISA move-attention
+    =goal>
+        state adadad
+)
+
+
+(p encode-bar
+    =goal>
+        ISA read-bar
+        state adadad
+    ?imaginal>
+        state free
+==>
+    =goal>
+        state respond
+    +imaginal>
+        isa array
+    -visual-location>
+    -visual>
+)
+
+(goal-focus goal)
+
+
+
+

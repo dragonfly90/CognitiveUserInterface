@@ -1,6 +1,5 @@
 (set-task "actr.tasks.ActrInterface.SIMCogACTR") 
 
-(sgp :esc t :lf .05 :trace-detail high)
 
 
 (add-dm
