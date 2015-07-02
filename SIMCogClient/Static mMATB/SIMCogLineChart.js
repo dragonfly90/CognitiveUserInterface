@@ -58,47 +58,63 @@ var dynamicEvent = new Array(); //List of dynamicUpdating items
 var readyCommands = function(){
 
     var tmp = getObjectXYHW("point1");
-    var string = "(add-dm (monitorPoint1 isa cpoint current point1 next point2 x ";
-    string += Math.floor(tmp.x+tmp.width/2);
+    var string = "(add-dm (monitorPoint1 isa cpoint current point1 next point2 xMin ";
 
-    string += " y ";
-    string += Math.floor(tmp.y+tmp.height/2);
-
+    string += Math.floor(tmp.x);
+    string += " xMax ";
+    string += Math.ceil(tmp.x + tmp.width);
+    string += " yMin ";
+    string += Math.floor(tmp.y);
+    string += " yMax ";
+    string += Math.ceil(tmp.y + tmp.height);
     string += "))";
+
     modelCommands.push(string);
 
 
 
     tmp = getObjectXYHW("point2");
-    string = "(add-dm (monitorPoint2 isa cpoint current point2 next point3 x ";
-    string += Math.floor(tmp.x+tmp.width/2);
-
-    string += " y ";
-    string += Math.floor(tmp.y+tmp.height/2);
-
+    string = "(add-dm (monitorPoint2 isa cpoint current point2 next point3 xMin ";
+    
+    string += Math.floor(tmp.x);
+    string += " xMax ";
+    string += Math.ceil(tmp.x + tmp.width);
+    string += " yMin ";
+    string += Math.floor(tmp.y);
+    string += " yMax ";
+    string += Math.ceil(tmp.y + tmp.height);
     string += "))";
+    console.log(string);
+    
     modelCommands.push(string);
 
     tmp = getObjectXYHW("point3");
-    string = "(add-dm (monitorPoint3 isa cpoint current point3 next point4 x ";
-    string += Math.floor(tmp.x+tmp.width/2);
+    string = "(add-dm (monitorPoint3 isa cpoint current point3 next point4 xMin ";
 
-    string += " y ";
-    string += Math.floor(tmp.y+tmp.height/2);
-
+    string += Math.floor(tmp.x);
+    string += " xMax ";
+    string += Math.ceil(tmp.x + tmp.width);
+    string += " yMin ";
+    string += Math.floor(tmp.y);
+    string += " yMax ";
+    string += Math.ceil(tmp.y + tmp.height);
     string += "))";
-    modelCommands.push(string);
 
+    modelCommands.push(string);
 
     tmp = getObjectXYHW("point4");
-    string = "(add-dm (monitorPoint4 isa cpoint current point4 next endf x ";
-    string += Math.floor(tmp.x+tmp.width/2);
+    string = "(add-dm (monitorPoint4 isa cpoint current point4 next endf xMin ";
 
-    string += " y ";
-    string += Math.floor(tmp.y+tmp.height/2);
-
+    string += Math.floor(tmp.x);
+    string += " xMax ";
+    string += Math.ceil(tmp.x + tmp.width);
+    string += " yMin ";
+    string += Math.floor(tmp.y);
+    string += " yMax ";
+    string += Math.ceil(tmp.y + tmp.height);
     string += "))";
     modelCommands.push(string);
+
 
     string="(add-dm (first-goal isa search from point1 to point4)) ";
     modelCommands.push(string);

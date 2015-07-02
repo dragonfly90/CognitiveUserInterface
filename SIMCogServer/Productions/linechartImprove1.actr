@@ -1,0 +1,206 @@
+(set-task "actr.tasks.ActrInterface.SIMCogACTR")
+
+(p start
+    =goal>
+        ISA         search
+        from  =currentpoint
+        count nil
+==>
+    =goal>
+        count =currentpoint
+    +retrieval>
+        ISA         cpoint
+        current      =currentpoint
+        !output!(=currentpoint)
+)
+
+(p start-point
+    =goal>
+        ISA         search
+        count =currentpoint
+        attention nil
+        shiftattention nil
+    =retrieval>
+        ISA cpoint
+        xMin =xmin
+        yMin =ymin
+        xMax =xmax
+        yMax =ymax
+    ?visual-location>
+        - buffer requested
+        - state  error
+==>
+    =goal>
+        attention atte
+        shiftattention now
+        
+    =retrieval>
+    +visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+)
+
+
+(p shift-attention-blue-light
+    =goal> 
+        ISA         search
+        from  =currentpoint
+        attention atte
+        shiftattention now
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    ?visual>
+        state free
+        buffer empty
+==>
+        
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+    =retrieval>
+)
+
+(p detected-blue-point
+    =goal>
+        ISA         search
+        count  =currentpoint
+        attention atte
+        shiftattention now
+        minpoint nil
+        miny nil
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    =visual>
+        color steel_blue
+==>
+    =goal>
+        minpoint =currentpoint
+        shiftattention before
+        miny =ymin
+    =retrieval>
+        
+    -visual-location>
+        
+    -visual>
+        !output!(=ymin)
+)
+
+(p detected-blue-point2   
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    =goal>
+        ISA         search
+        count  =currentpoint
+        attention atte
+        shiftattention now
+        - minpoint nil
+        - miny nil
+        minpoint =previouspoint
+        miny =previousy
+        > miny =ymin
+    =visual>
+        color steel_blue
+==>
+    =goal>
+        minpoint =currentpoint
+        miny =ymin
+        shiftattention before
+    -visual-location>
+    -visual>
+        !output!(=ymin)
+)
+
+(p detected-blue-point3   
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    =goal>
+        ISA         search
+        count  =currentpoint
+        attention atte
+        - minpoint nil
+        - miny nil
+        minpoint =previouspoint
+        miny =previousy
+        <= miny =ymin
+        shiftattention now
+    =visual>
+        color steel_blue
+==>
+    =goal>
+        shiftattention before
+    -visual-location>
+    -visual>
+        !output!(=ymin)
+)
+
+(p didnt-detect-blue-point
+    =goal>
+        ISA         search
+        count  =currentpoint
+        attention atte
+    =visual-location>
+        isa visual-location
+        > screen-x =xmin
+        < screen-x =xmax
+        > screen-y =ymin
+        < screen-y =ymax
+    =visual>
+        color black
+==>
+    =goal>
+        ISA         search
+    -visual-location>
+        
+    -visual>
+        !output!(black)
+)
+
+
+(p next-point
+    =goal>
+        ISA         search
+        count =currentpoint
+        attention atte
+        shiftattention before
+    =retrieval>
+        ISA cpoint
+        current =currentpoint
+        next =nextpoint
+        - next end 
+    ?visual>
+        state free
+        buffer empty
+==>
+    =goal>
+        shiftattention nil
+        attention nil
+        count =nextpoint
+    +retrieval>
+        ISA         cpoint
+        current      =nextpoint
+        !output!(=nextpoint)
+)
+
+
+
+

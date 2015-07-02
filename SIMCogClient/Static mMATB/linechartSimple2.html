@@ -3,7 +3,7 @@
 
     <body>
         <script src="d3/d3.v3.min.js"></script>
-        <script src="SIMCogLineChart.js"></script>
+        <script src="SIMCogLineChart2.js"></script>
         <script>
             
             var margin = {top: 20, right: 80, bottom: 30, left: 50},
@@ -79,6 +79,12 @@
                     .attr("fill","steelblue")
                     .attr("id","point4");
 
+            svg.append("circle")
+                    .attr("cx",500)
+                    .attr("cy",250)
+                    .attr("r",5)
+                    .attr("fill","steelblue")
+                    .attr("id","point4");
 
             svg.append("line")          // attach a line
                     .style("stroke", "steelblue")  // colour the line
