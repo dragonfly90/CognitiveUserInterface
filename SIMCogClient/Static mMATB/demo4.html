@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <style>
+    .axis path,
+    .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+    
+    .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+    }
+    
+    .y1 {
+        fill: white;
+        stroke: orange;
+        stroke-width: 1.5px;
+    }
+    
+    .y2 {
+        fill: white;
+        stroke: red;
+        stroke-width: 1.5px;
+    }
+    
+    .y3 {
+        fill: white;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+    
+    .line {
+        fill: none;
+        stroke-width: 1.5px;
+    }
+    
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        width: 50px;
+        height: 10px;
+        padding: 5px;
+        font: 10px sans-serif;
+        background: whiteSmoke;
+        border: solid 1px #aaa;
+        pointer-events: none;
+        box-shadow: 2px 2px 1px #888;
+    }
+    
+    .legend {
+        padding: 5px;
+        font: 10px sans-serif;
+        background: yellow;
+        box-shadow: 2px 2px 1px #888;
+    }
+    
+    .title {
+        font: 13px sans-serif;
+    }
+    </style>
+</head>
+
+<body>
+    <script src="d3/d3.v3.min.js"></script>
+    <script>
+
+//Width and height
+var w = 500;
+var h = 300;
+var padding = 50;
+
+var now = d3.time.hour.utc(new Date);
+var dataset = [
+               [
+                    {x: d3.time.hour.utc.offset(now, -5), y: 0},
+                    {x: d3.time.hour.utc.offset(now, -4), y: 0},
+                    {x: d3.time.hour.utc.offset(now, -3), y: 2},
+                    {x: d3.time.hour.utc.offset(now, -2), y: 0},
+                    {x: d3.time.hour.utc.offset(now, -1), y: 0},
+                    {x: now, y: 0}
+                ],
+               [
+                    {x: d3.time.hour.utc.offset(now, -5), y: 3},
+                    {x: d3.time.hour.utc.offset(now, -4), y: 1},
+                    {x: d3.time.hour.utc.offset(now, -3), y: 3},
+                    {x: d3.time.hour.utc.offset(now, -2), y: 1},
+                    {x: d3.time.hour.utc.offset(now, -1), y: 5},
+                    {x: now, y: 2}
+                ],
+               [
+                    {x: d3.time.hour.utc.offset(now, -5), y: 2},
+                    {x: d3.time.hour.utc.offset(now, -4), y: 4},
+                    {x: d3.time.hour.utc.offset(now, -3), y: 1},
+                    {x: d3.time.hour.utc.offset(now, -2), y: 2},
+                    {x: d3.time.hour.utc.offset(now, -1), y: 3},
+                    {x: now, y: 1}
+                ]
+               ];
+               
+var dataset1=[
+              {x: d3.time.hour.utc.offset(now, -5), y: 0},
+              {x: d3.time.hour.utc.offset(now, -4), y: 0},
+              {x: d3.time.hour.utc.offset(now, -3), y: 2},
+              {x: d3.time.hour.utc.offset(now, -2), y: 0},
+              {x: d3.time.hour.utc.offset(now, -1), y: 0},
+              {x: now, y: 0}
+              ];
+var dataset2= [
+                {x: d3.time.hour.utc.offset(now, -5), y: 3},
+                {x: d3.time.hour.utc.offset(now, -4), y: 1},
+                {x: d3.time.hour.utc.offset(now, -3), y: 3},
+                {x: d3.time.hour.utc.offset(now, -2), y: 1},
+                {x: d3.time.hour.utc.offset(now, -1), y: 5},
+                {x: now, y: 2}
+              ];
+var dataset3= [
+                {x: d3.time.hour.utc.offset(now, -5), y: 2},
+                {x: d3.time.hour.utc.offset(now, -4), y: 4},
+                {x: d3.time.hour.utc.offset(now, -3), y: 1},
+                {x: d3.time.hour.utc.offset(now, -2), y: 2},
+                {x: d3.time.hour.utc.offset(now, -1), y: 3},
+                {x: now, y: 1}
+               ];
+                                                
+var color_hash = {  0 : ["apple", "green"],1 : ["mango", "orange"],2 : ["cherry", "red"]}
+
+// Define axis ranges & scales
+var yExtents = d3.extent(d3.merge(dataset), function (d) { return d.y; });
+var xExtents = d3.extent(d3.merge(dataset), function (d) { return d.x; });
+
+var xScale = d3.time.scale()
+.domain([xExtents[0], xExtents[1]])
+.range([padding+15, w - padding * 2]);
+
+var yScale = d3.scale.linear()
+.domain([0, yExtents[1]])
+.range([h - padding, padding]);
+
+
+// Create SVG element
+var svg = d3.select("body")
+.append("svg")
+.attr("width", w)
+.attr("height", h);
+
+
+//Draw Bars
+svg.selectAll("bar")
+.data(dataset1)
+.enter().append("rect")
+.style("fill", "green")
+.attr("x", function(d){return xScale(d.x)-15;})
+.attr("width", 10)
+.attr("y", function(d){return yScale(d.y)})
+.attr("height", function(d) { return h-padding-yScale(d.y); })
+.attr("id",function(d,i){return 'bar1'+i;});
+
+
+svg.selectAll("bar")
+.data(dataset2)
+.enter().append("rect")
+.style("fill", "orange")
+.attr("x", function(d){return xScale(d.x)-5;})
+.attr("width", 10)
+.attr("y", function(d){return yScale(d.y)})
+.attr("height", function(d) { return h-padding-yScale(d.y); })
+.attr("id",function(d,i){return 'bar2'+i;});
+
+svg.selectAll("bar")
+.data(dataset3)
+.enter().append("rect")
+.style("fill", "red")
+.attr("x", function(d){return xScale(d.x)+5;})
+.attr("width", 10)
+.attr("y", function(d){return yScale(d.y)})
+.attr("height", function(d) { return h-padding-yScale(d.y); })
+.attr("id",function(d,i){return 'bar3'+i;});
+
+
+//Define X axis
+var xAxis = d3.svg.axis()
+.scale(xScale)
+.orient("bottom")
+.ticks(5);
+
+//Define Y axis
+var yAxis = d3.svg.axis()
+.scale(yScale)
+.orient("left")
+.ticks(5);
+
+//Add X axis
+svg.append("g")
+.attr("class", "axis")
+.attr("transform", "translate(0," + (h - padding) + ")")
+.call(xAxis);
+
+//Add Y axis
+svg.append("g")
+.attr("class", "axis")
+.attr("transform", "translate(" + padding + ",0)")
+.call(yAxis);
+
+// Add title
+svg.append("svg:text")
+.attr("class", "title")
+.attr("x", 20)
+.attr("y", 20)
+.text("Fruit Sold Per Hour");
+
+
+// add legend
+var legend = svg.append("g")
+.attr("class", "legend")
+//.attr("x", w - 65)
+//.attr("y", 50)
+.attr("height", 100)
+.attr("width", 100)
+.attr('transform', 'translate(-20,50)')
+
+
+legend.selectAll('rect')
+.data(dataset)
+.enter()
+.append("rect")
+.attr("x", w - 65)
+.attr("y", function(d, i){ return i *  20;})
+.attr("width", 10)
+.attr("height", 10)
+.style("fill", function(d) {
+var color = color_hash[dataset.indexOf(d)][1];
+return color;
+})
+
+legend.selectAll('text')
+.data(dataset)
+.enter()
+.append("text")
+.attr("x", w - 52)
+.attr("y", function(d, i){ return i *  20 + 9;})
+.text(function(d) {
+var text = color_hash[dataset.indexOf(d)][0];
+return text;
+});
+
+        </script>
+

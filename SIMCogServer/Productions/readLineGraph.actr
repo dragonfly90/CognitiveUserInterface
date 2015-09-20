@@ -1,0 +1,200 @@
+(set-task "actr.tasks.ActrInterface.SIMCogACTR")
+
+
+(add-dm
+    (find-first isa chunk)
+    (attend-first isa chunk)
+    (find-next isa chunk)
+    (attend-next isa chunk)
+    (attend-next2 isa chunk)
+    (attend-maxpoint isa chunk)
+    (mygoal isa best-point state find-first))
+
+(p find-first-point
+    =goal>
+        isa            best-point
+        state          find-first
+    ?visual>
+        state          free
+==>
+    =goal>
+        state         attend-first
+    +visual-location>
+        isa           visual-location
+        screen-x      lowest
+        color green)
+
+(p shift-attention-first-point
+    =goal> 
+        ISA         best-point
+        state      attend-first
+    =visual-location>
+        isa visual-location
+        screen-x =screen-x
+        screen-y =screen-y
+        
+    ?visual>
+        state free
+        buffer empty
+==>
+        
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+        
+)
+
+(p attend-first-point
+    =goal>
+        isa           best-point
+        state         attend-first
+    =visual-location>
+        isa          visual-location
+        screen-x     =screen-x
+        screen-y     =screen-y
+    =visual>
+==>
+    !eval! (print (list :first =screen-x =screen-y))
+    =goal>
+        greatest-x     =screen-x
+        greatest-y     =screen-y
+        state          find-next
+    -visual-location>
+    -visual>
+)
+
+(p find-next-point
+    =goal>
+        isa           best-point
+        state         find-next
+        greatest-x    =screen-x
+    ?visual>
+        state          free
+==>
+    =goal>
+        state         attend-next
+    +visual-location>
+        isa            visual-location
+        screen-x      lowest
+        > screen-x       =screen-x
+        color green
+)
+
+(p find-Max-point
+    ?visual-location>
+        state error
+    =goal>
+        isa           best-point
+        state         attend-next
+        greatest-y    =current-y
+    ?visual>
+        state          free
+==>
+    =goal>
+        state attend-maxpoint
+    +visual-location>
+        isa visual-location       
+        screen-y  =current-y
+)
+
+(p shift-attention-Maxpoint
+    =goal> 
+        ISA         best-point
+        state     attend-maxpoint
+    =visual-location>
+        isa visual-location
+        screen-x =screen-x
+        screen-y =screen-y
+    ?visual>
+        state free
+        buffer empty
+==>
+    =goal>
+        state focuseMax
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p endtask
+    =goal>
+        state focuseMax
+    =visual-location>
+        isa visual-location
+        screen-x =screen-x
+        screen-y =screen-y
+    =visual>
+==>
+    =goal>
+        state final
+    -visual-location>
+    -visual>
+)
+
+
+
+(p shift-attention-point
+    =goal> 
+        ISA         best-point
+        state     attend-next
+    =visual-location>
+        isa visual-location
+        screen-x =screen-x
+        screen-y =screen-y
+    ?visual>
+        state free
+        buffer empty
+==>
+    =goal>
+        state attend-next2
+    +visual>
+        isa       move-attention
+        screen-pos =visual-location
+    =visual-location>
+)
+
+(p attend-point-save
+    =goal>
+        isa           best-point
+        state         attend-next2
+        greatest-y    =current-y
+    =visual-location>
+        isa           visual-location
+        screen-x      =screen-x
+        screen-y      =screen-y
+        > screen-y      =current-y
+    =visual>
+==>
+    =goal>
+        greatest-x    =screen-x
+        greatest-y    =screen-y
+        state         find-next
+    -visual-location>
+    -visual>
+    !eval! (print (list :next-save =screen-x =screen-y))
+)
+
+(p attend-point-skip
+    =goal>
+        isa           best-point
+        state         attend-next2
+        greatest-y    =current-y
+    =visual-location>
+        isa            visual-location
+        screen-x       =screen-x
+        screen-y       =screen-y
+        <= screen-y       =current-y
+    =visual>
+==>
+    =goal>
+        greatest-x    =screen-x
+        state         find-next
+    -visual-location>
+    -visual>
+    !eval! (print (list :next-skip =screen-x =screen-y))
+)
+
+
+(goal-focus mygoal)

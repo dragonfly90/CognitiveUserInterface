@@ -1,0 +1,1 @@
+question:  Is the trend of A from time 5 p.m. to time 8 p.m. upward?  answer: yes

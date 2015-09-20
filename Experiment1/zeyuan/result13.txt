@@ -1,0 +1,1 @@
+question:  Is the trend of B from time 4 p.m. to time 7 p.m. upward?  answer: no
