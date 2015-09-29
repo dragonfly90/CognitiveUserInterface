@@ -2,27 +2,192 @@
 
 
 (add-dm
+    (letter isa chunk)
+    (startRead isa chunk)
+    (attend isa chunk)
+    (read isa chunk)
+    (found isa chunk)
+    (nextLabel isa chunk)
     (find-first isa chunk)
     (attend-first isa chunk)
     (find-next isa chunk)
     (attend-next isa chunk)
     (attend-next2 isa chunk)
     (attend-maxpoint isa chunk)
-    (mygoal isa best-point state find-first))
+    (findColor isa chunk)
+    (attendcolor isa chunk)
+    (mygoal isa best-point state startRead labeldata "B"))
+
+(p associate-color-with-label
+    =goal>
+        isa best-point
+        state startRead
+    ?visual>
+        state free
+==>
+    +visual-location>
+        isa visual-location
+        screen-x highest
+        screen-y highest
+    =goal>
+        state color-association
+)
+
+(p attend-label
+    =goal>
+        isa best-point
+        state color-association
+    =visual-location>
+        isa visual-location
+        screen-x     =screen-x
+        screen-y     =screen-y
+    ?visual>
+        state free
+==>
+    +visual>
+        isa move-attention
+        screen-pos =visual-location
+    =goal>
+        state attend
+        currentx =screen-x
+        currenty =screen-y
+)
+
+(p read-label
+    =goal>
+        isa best-point
+        state attend
+    =visual>
+        isa text
+        value =letter
+    ?imaginal>
+        state free
+==>
+    =goal>
+        state read
+    +imaginal>
+        isa array
+        letter =letter
+        !output!(=letter)
+    -visual-location>
+    -visual>
+)
+
+(p find-Exact-Label1
+    =goal>
+        isa best-point
+        state read
+        labeldata =clabeldata
+    =imaginal>
+        isa array
+        letter =clabeldata
+==>
+    =goal>
+        isa best-point
+        state found
+    -imaginal>
+)
+
+(p find-Exact-Label2
+    =goal>
+        isa best-point
+        state read
+        labeldata =clabeldata
+    =imaginal>
+        isa array
+        - letter =clabeldata
+==>
+    =goal>
+        isa best-point
+        state nextLabel
+    -imaginal>
+)
+
+(p find-Next-Label
+    =goal>
+        isa best-point
+        state nextLabel
+        currentx =currentx
+        currenty =currenty
+    ?visual>
+        state free
+==>
+    +visual-location>
+        isa visual-location
+        screen-x =currentx    
+        < screen-y =currenty
+        screen-y highest
+    =goal>
+        state color-association
+)
+
+
+(p find-Color
+    =goal>
+        isa best-point
+        state found
+        currentx =currentx
+        currenty =currenty
+    ?visual>
+        state free
+==>
+    +visual-location>
+        isa visual-location
+        screen-y =currenty
+        < screen-x =currentx    
+        screen-x highest
+    =goal>
+        state findColor
+)
+
+(p attend-color
+    =goal>
+        isa best-point
+        state findColor
+    =visual-location>
+        isa visual-location
+    ?visual>
+        state free
+==>
+    +visual>
+        isa move-attention
+        screen-pos =visual-location
+    =goal>
+        state attendcolor
+)
+
+(p read-color
+    =goal>
+        isa best-point
+        state attendcolor
+    =visual>
+        isa rectangle
+        color =currentcolor
+    ?imaginal>
+        state free
+==>
+    =goal>
+        state find-first
+        color =currentcolor
+    -visual-location>
+    -visual>
+        !output!(=currentcolor)
+)
 
 (p find-first-point
     =goal>
         isa            best-point
         state          find-first
+        color =currentcolor
     ?visual>
-        state          free
+        state free
 ==>
     =goal>
         state         attend-first
     +visual-location>
         isa           visual-location
         screen-x      lowest
-        color green)
+        color  =currentcolor)
 
 (p shift-attention-first-point
     =goal> 
@@ -42,6 +207,7 @@
         isa       move-attention
         screen-pos =visual-location
     =visual-location>
+        
         
 )
 
@@ -69,6 +235,7 @@
         isa           best-point
         state         find-next
         greatest-x    =screen-x
+        color =currentcolor
     ?visual>
         state          free
 ==>
@@ -78,7 +245,7 @@
         isa            visual-location
         screen-x      lowest
         > screen-x       =screen-x
-        color green
+        color =currentcolor
 )
 
 (p find-Max-point
@@ -88,6 +255,7 @@
         isa           best-point
         state         attend-next
         greatest-y    =current-y
+        color =currentcolor
     ?visual>
         state          free
 ==>
@@ -96,7 +264,7 @@
     +visual-location>
         isa visual-location       
         screen-y  =current-y
-        color green
+        color =currentcolor
 )
 
 (p shift-attention-Maxpoint

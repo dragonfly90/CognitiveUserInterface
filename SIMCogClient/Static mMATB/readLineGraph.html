@@ -221,16 +221,17 @@
                     .attr("class", "axis")
                     .attr("transform", "translate(0," + (h - padding) + ")")
                     .call(xAxis)
-                    .attr("id","xaxis");
-            d3.select("#xaxis").selectAll("text").attr("id", function(d,i) {return "xaxisText" + i});
-
+                    .attr("id","xis");
+            d3.select("#xis").selectAll("text").attr("id", function(d,i) {return "xians" + i});
+            d3.select("#xis").selectAll("line").attr("id",function(d,i){return "xline"+i});
             //Add Y axis
             svg.append("g")
                     .attr("class", "axis")
                     .attr("transform", "translate(" + padding + ",0)")
                     .call(yAxis)
-                    .attr("id","yaxis");
-            d3.select("#yaxis").selectAll("text").attr("id", function(d,i) {return "yaxisText" + i});
+                    .attr("id","yis");
+            d3.select("#yis").selectAll("text").attr("id", function(d,i) {return "yams" + i});
+            d3.select("#yis").selectAll("line").attr("id",function(d,i){return "yline"+i});
 
             // Add title
             svg.append("svg:text")
@@ -238,7 +239,7 @@
                     .attr("x", 20)
                     .attr("y", 20)
                     .text("Product sold per hour")
-                    .attr("id","graphtitle");
+                    .attr("id","labeltitle0");
 
 
             // add legend
@@ -257,8 +258,8 @@
                     .append("rect")
                     .attr("x", w - 70)
                     .attr("y", function(d, i){ return i *  40;})
-                    .attr("width", 20)
-                    .attr("height", 20)
+                    .attr("width", 18)
+                    .attr("height", 18)
                     .style("fill", function(d) {
                         var color = color_hash[dataset.indexOf(d)][1];
                         return color;

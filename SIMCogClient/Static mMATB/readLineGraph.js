@@ -25,25 +25,41 @@ setTimeout(function(){
         {type : "Label", id : "label0", color:"black", change : "static"},
         {type : "Label", id : "label1", color:"black",change : "static"},
         {type : "Label", id : "label2", color:"black", change : "static"},
-        {type: "Label",id: "graphtitle",color: "black",change: "static"},
+        {type: "Label", id: "labeltitle0",color: "black",change: "static"},
         {type : "Rectangle", id : "rectangle0", change : "static"},
         {type : "Rectangle", id : "rectangle1", change : "static"},
         {type : "Rectangle", id : "rectangle2", change : "static"},
       //  {type : "Line", id : "xaxis", change : "static", color : "black"},
       //  {type : "Line", id : "yaxis", change : "static", color : "black"},
 
-        //{type : "Label", id : "xaxisText0",  change : "static"},
-         //{type : "Label", id : "xaxisText1", change : "static"},
-         //{type : "Label", id : "xaxisText2", change : "static"},
-         //{type : "Label", id : "xaxisText3",  change : "static"},
-        //{type : "Label", id : "xaxisText4", change : "static"},
-         //{type : "Label", id : "xaxisText5",  change : "static"},
+        {type : "Label", id : "xians0",  change : "static"},
+        {type : "Label", id : "xians1", change : "static"},
+        {type : "Label", id : "xians2", change : "static"},
+        {type : "Label", id : "xians3",  change : "static"},
+        {type : "Label", id : "xians4", change : "static"},
+         {type : "Label", id : "xians5",  change : "static"},
 
-        //{type : "Label", id : "yaxisText0", change : "static"},
-        //{type : "Label", id : "yaxisText1", change : "static"},
-        //{type : "Label", id : "yaxisText2", change : "static"},
-        //{type : "Label", id : "yaxisText3", change : "static"},
-        //{type : "Label", id : "yaxisText4", change : "static"},
+        {type : "Label", id : "yams0", change : "static"},
+        {type : "Label", id : "yams1", change : "static"},
+        {type : "Label", id : "yams2", change : "static"},
+        {type : "Label", id : "yams3", change : "static"},
+        {type : "Label", id : "yams4", change : "static"},
+
+        {type : "Line", id : "xline0",  change : "static"},
+        {type : "Line", id : "xline1", change : "static"},
+        {type : "Line", id : "xline2", change : "static"},
+        {type : "Line", id : "xline3",  change : "static"},
+        {type : "Line", id : "xline4", change : "static"},
+        {type : "Line", id : "xline5",  change : "static"},
+
+        {type : "Line", id : "yline0", change : "static"},
+        {type : "Line", id : "yline1", change : "static"},
+        {type : "Line", id : "yline2", change : "static"},
+        {type : "Line", id : "yline3", change : "static"},
+        {type : "Line", id : "yline4", change : "static"},
+
+        //{type : "Line", id : "xis", change : "static"},
+        //{type : "Line", id : "yis", change : "static"},
 
         {type : "Oval", id : "point20", color:"orange", change : "static"},
         {type : "Oval", id : "point21", color:"orange", change : "static"},
@@ -141,6 +157,7 @@ ws.onopen = function() {
         for (var i = 0; i < screenObjects.length; i++) {
             if (validObject(screenObjects[i].id, true)) {
                 intialArray.push(updateAllItemValues(screenObjects[i]));
+                console.log(screenObjects[i].id);
             }
         }
         ;
