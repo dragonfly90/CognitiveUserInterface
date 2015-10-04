@@ -16,7 +16,7 @@
     (attend-maxpoint isa chunk)
     (findColor isa chunk)
     (attendcolor isa chunk)
-    (mygoal isa best-point state startRead labeldata "B"))
+    (mygoal isa best-point state startRead labeldata "A"))
 
 (p associate-color-with-label
     =goal>
@@ -196,18 +196,15 @@
     =visual-location>
         isa visual-location
         screen-x =screen-x
-        screen-y =screen-y
-        
+        screen-y =screen-y  
     ?visual>
         state free
         buffer empty
 ==>
-        
     +visual>
         isa       move-attention
         screen-pos =visual-location
     =visual-location>
-        
         
 )
 

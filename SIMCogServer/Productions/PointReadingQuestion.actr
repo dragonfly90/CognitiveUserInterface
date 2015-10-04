@@ -16,7 +16,14 @@
     (attend-maxpoint isa chunk)
     (findColor isa chunk)
     (attendcolor isa chunk)
-    (mygoal isa best-point state startRead labeldata "B"))
+    (mygoal isa best-point state startRead labeldata "A" timestamp "05 PM" current "no")
+    (locate-xaxis isa chunk)
+    (attend-xaxis isa chunk)
+    (read-xaxis isa chunk)
+    (read-line isa chunk)
+    (search-up-xaxis isa chunk)
+    (search-down-xaxis isa chunk)
+)
 
 (p associate-color-with-label
     =goal>
@@ -27,8 +34,9 @@
 ==>
     +visual-location>
         isa visual-location
+        > screen-x 500
         screen-x highest
-        screen-y highest
+        screen-y lowest
     =goal>
         state color-association
 )
@@ -115,8 +123,8 @@
     +visual-location>
         isa visual-location
         screen-x =currentx    
-        < screen-y =currenty
-        screen-y highest
+        > screen-y =currenty
+        screen-y lowest
     =goal>
         state color-association
 )
@@ -174,196 +182,162 @@
         !output!(=currentcolor)
 )
 
-(p find-first-point
-    =goal>
-        isa            best-point
-        state          find-first
-        color =currentcolor
-    ?visual>
-        state free
-==>
-    =goal>
-        state         attend-first
-    +visual-location>
-        isa           visual-location
-        screen-x      lowest
-        color  =currentcolor)
 
-(p shift-attention-first-point
-    =goal> 
-        ISA         best-point
-        state      attend-first
-    =visual-location>
-        isa visual-location
-        screen-x =screen-x
-        screen-y =screen-y
-        
+(p locate-x-axis
+    =goal>
+        isa best-point
+        state find-first
     ?visual>
         state free
-        buffer empty
 ==>
-        
-    +visual>
-        isa       move-attention
-        screen-pos =visual-location
-    =visual-location>
-        
-        
+    +visual-location>
+        isa visual-location
+        > screen-y 365
+        screen-x lowest
+    =goal>
+        state locate-xaxis
 )
 
-(p attend-first-point
+(p attend-x-axis
     =goal>
-        isa           best-point
-        state         attend-first
+        isa best-point
+        state locate-xaxis
     =visual-location>
-        isa          visual-location
+        isa visual-location
         screen-x     =screen-x
         screen-y     =screen-y
-    =visual>
-==>
-    !eval! (print (list :first =screen-x =screen-y))
-    =goal>
-        greatest-x     =screen-x
-        greatest-y     =screen-y
-        state          find-next
-    -visual-location>
-    -visual>
-)
-
-(p find-next-point
-    =goal>
-        isa           best-point
-        state         find-next
-        greatest-x    =screen-x
-        color =currentcolor
-    ?visual>
-        state          free
-==>
-    =goal>
-        state         attend-next
-    +visual-location>
-        isa            visual-location
-        screen-x      lowest
-        > screen-x       =screen-x
-        color =currentcolor
-)
-
-(p find-Max-point
-    ?visual-location>
-        state error
-    =goal>
-        isa           best-point
-        state         attend-next
-        greatest-y    =current-y
-        color =currentcolor
-    ?visual>
-        state          free
-==>
-    =goal>
-        state attend-maxpoint
-    +visual-location>
-        isa visual-location       
-        screen-y  =current-y
-        color =currentcolor
-)
-
-(p shift-attention-Maxpoint
-    =goal> 
-        ISA         best-point
-        state     attend-maxpoint
-    =visual-location>
-        isa visual-location
-        screen-x =screen-x
-        screen-y =screen-y
     ?visual>
         state free
-        buffer empty
 ==>
-    =goal>
-        state focuseMax
     +visual>
-        isa       move-attention
+        isa move-attention
         screen-pos =visual-location
-    =visual-location>
+    =goal>
+        state attend-xaxis
+        currentx =screen-x
+        currenty =screen-y
+        !output!(=screen-y)
 )
 
-(p endtask
+(p read-x-axis
     =goal>
-        state focuseMax
-    =visual-location>
-        isa visual-location
-        screen-x =screen-x
-        screen-y =screen-y
+        isa best-point
+        state attend-xaxis
     =visual>
+        isa text
+        value =currenttime 
 ==>
     =goal>
-        state final
+        state read-xaxis
+        current =currenttime
+    -visual-location>
+    -visual>
+        !output!(=currenttime)
+)
+
+(p justify-xaxis1
+    =goal>
+        isa best-point
+        state read-xaxis
+        timestamp =currenttime
+        current =currenttime
+==>
+    =goal>
+        state read-line
+        !output!(=currenttime)
     -visual-location>
     -visual>
 )
 
-
-
-(p shift-attention-point
-    =goal> 
-        ISA         best-point
-        state     attend-next
-    =visual-location>
-        isa visual-location
-        screen-x =screen-x
-        screen-y =screen-y
+(p start-read-line
+    =goal>
+        isa best-point
+        state search-up-xaxis
+        currentx	=current-x
+        currenty 	=current-y      
     ?visual>
         state free
-        buffer empty
+==>
+    +visual-location>
+        isa visual-location
+        > screen-y 365
+        > screen-x =current-x
+        screen-x lowest
+    =goal>
+        state locate-xaxis
+        !output!(=current-y)
+)
+(p justify-xaxis2
+    =goal>
+        isa best-point
+        state read-xaxis
+        timestamp =currenttime
+        - current =currenttime
 ==>
     =goal>
-        state attend-next2
+        state search-up-xaxis
+        !output!(=currenttime)
+    -visual-location>
+    -visual>
+)
+
+(p justify-xaxis3
+    =goal>
+        isa best-point
+        state read-xaxis
+        timestamp =currenttime
+        - current =currenttime
+        current =currenttime
+==>
+    =goal>
+        state search-down-xaxis
+        !output!(=currenttime)
+    -visual-location>
+    -visual>
+)
+
+(p locate-down-xaxis
+    =goal>
+        isa best-point
+        state search-down-xaxis
+        currentx =screen-x
+        currenty =screen-y    
+    =visual-location>
+        isa visual-location
+        screen-y ＝screen-y
+        < screen-x ＝screen-x
+        screen-x highest
+    ?visual>
+        state free
+==>
     +visual>
-        isa       move-attention
+        isa move-attention
         screen-pos =visual-location
-    =visual-location>
+    =goal>
+        state attend-xaxis
+        currentx =screen-x
+        currenty =screen-y
 )
 
-(p attend-point-save
+(p locate-up-xaxis
     =goal>
-        isa           best-point
-        state         attend-next2
-        greatest-y    =current-y
-    =visual-location>
-        isa           visual-location
-        screen-x      =screen-x
-        screen-y      =screen-y
-        > screen-y      =current-y
-    =visual>
+        isa best-point
+        state search-up-xaxis
+        currentx	=current-x
+        currenty 	=current-y      
+    ?visual>
+        state free
 ==>
+    +visual-location>
+        isa visual-location
+        > screen-y 365
+        > screen-x =current-x
+        screen-x lowest
     =goal>
-        greatest-x    =screen-x
-        greatest-y    =screen-y
-        state         find-next
-    -visual-location>
-    -visual>
-    !eval! (print (list :next-save =screen-x =screen-y))
+        state locate-xaxis
+        !output!(=current-y)
 )
 
-(p attend-point-skip
-    =goal>
-        isa           best-point
-        state         attend-next2
-        greatest-y    =current-y
-    =visual-location>
-        isa            visual-location
-        screen-x       =screen-x
-        screen-y       =screen-y
-        <= screen-y       =current-y
-    =visual>
-==>
-    =goal>
-        greatest-x    =screen-x
-        state         find-next
-    -visual-location>
-    -visual>
-    !eval! (print (list :next-skip =screen-x =screen-y))
-)
 
 
 (goal-focus mygoal)
