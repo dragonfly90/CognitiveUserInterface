@@ -3,6 +3,9 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import os
+# model its prediction of human gaze
+# human error variation
+# timing
 
 
 print cv2.__version__
@@ -40,9 +43,10 @@ for j in range(1,21):
 
 
     with open(outputfile) as my_file:
+        lens=0
         for line in my_file:
             temp=line.split("\t")
-        
+            lens=lens+1
             if len(temp)==3:
                 testsite_arrayx.append(temp[0])
                 testsite_arrayy.append(temp[1])
@@ -120,6 +124,7 @@ for j in range(1,21):
     #elif k == ord('s'): # wait for 's' key to save and exit
     #    cv2.imwrite('eyetribe1l.jpeg',img)
     #    cv2.destroyAllWindows()
+    print lens
     savefie="test"+str(j)+".png"
     im.save(savefie)
 #res=cv2.resize(img,(width/2, height/2), interpolation = cv2.INTER_LINEAR)

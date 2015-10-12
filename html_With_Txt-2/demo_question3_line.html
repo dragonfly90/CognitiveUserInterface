@@ -1,0 +1,42 @@
+
+    <html>
+
+    <body onkeydown="forward()">
+
+    <center style="font-size:160%">Is the trend of <a id="title"></a> from time <a id="begintime"></a> p.m. to time <a id="endtime"></a> p.m. upward or downward?</center>
+    <center style="font-size:160%">Press the Enter key to see the chart.</center>
+
+
+
+    <script language="javascript">
+        var mytitle=Math.ceil(Math.random()*3);
+
+        var mytime=Math.ceil(Math.random()*3)+2;
+
+        if(mytitle==1)
+        {
+            document.getElementById('title').innerHTML="A";
+        }
+        else
+        {
+            if(mytitle==2)
+                document.getElementById('title').innerHTML="B";
+            else
+                document.getElementById('title').innerHTML="C";
+        }
+
+
+        document.getElementById('begintime').innerHTML=mytime;
+
+        document.getElementById("endtime").innerHTML=mytime+3;
+
+               function forward()
+        {
+            if(event.keyCode==13)
+            {
+                              window.location="demo_linechart3.html";
+            }
+        }
+    </script>
+    </body>
+    </html>

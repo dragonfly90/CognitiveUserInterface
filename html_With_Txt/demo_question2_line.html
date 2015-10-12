@@ -1,0 +1,63 @@
+
+    <html>
+
+    <body onkeydown="forward()">
+
+    <center style="font-size:160%">Is <a id="title1"></a> larger than <a id="title2"></a> at time <a id="time"></a> p.m.?</center>
+    <center style="font-size:160%">Press the Enter key to see the chart.</center>
+
+
+
+    <script language="javascript">
+        var mytitle1=Math.ceil(Math.random()*3);
+        var mytitle2=Math.ceil(Math.random()*2);
+        var mytime=Math.ceil(Math.random()*3)+3;
+
+        if(mytitle1==1)
+        {
+            document.getElementById('title1').innerHTML="A";
+        }
+        else
+        {
+            if(mytitle1==2)
+                document.getElementById('title1').innerHTML="B";
+            else
+                document.getElementById('title1').innerHTML="C";
+        }
+
+
+        if(mytitle1==1)
+            mytitle2+=mytitle1;
+        else
+            if(mytitle1==2)
+            {
+                if(mytitle2==2)
+                    mytitle2+=1;
+            }
+
+        if(mytitle2==1)
+        {
+            document.getElementById('title2').innerHTML="A";
+        }
+        else
+        {
+            if(mytitle2==2)
+                document.getElementById('title2').innerHTML="B";
+            else
+                document.getElementById('title2').innerHTML="C";
+        }
+
+
+        document.getElementById('time').innerHTML=mytime;
+
+        
+        function forward()
+        {
+            if(event.keyCode==13)
+            {
+                                window.location="demo_linechart2.html";
+            }
+        }
+    </script>
+    </body>
+    </html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <style>
+    .axis path,
+    .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+    
+    .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+    }
+    
+    .y1 {
+        fill: white;
+        stroke: orange;
+        stroke-width: 1.5px;
+    }
+    
+    .y2 {
+        fill: white;
+        stroke: red;
+        stroke-width: 1.5px;
+    }
+    
+    .y3 {
+        fill: white;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+    }
+    
+    .line {
+        fill: none;
+        stroke-width: 1.5px;
+    }
+    
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        width: 50px;
+        height: 10px;
+        padding: 5px;
+        font: 10px sans-serif;
+        background: whiteSmoke;
+        border: solid 1px #aaa;
+        pointer-events: none;
+        box-shadow: 2px 2px 1px #888;
+    }
+    
+    .legend {
+        padding: 5px;
+        font: 13px sans-serif;
+        background: yellow;
+        box-shadow: 2px 2px 1px #888;
+    }
+    
+    .title {
+        font: 13px sans-serif;
+    }
+    </style>
+
+    <script type="text/javascript" src="jquery-1.11.0.js"></script>
+    <script type='text/javascript' src="SaveBlob.js"></script>
+    <SCRIPT LANGUAGE="JavaScript">
+        function testResults (form) {
+            var radios = document.getElementsByName('yesorno');
+            var f = "recordanswer.txt";
+
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    // do whatever you want with the checked radio
+                    //alert('Your answer is '+radios[i].value);
+                   // writeTextFile(f, radios[i].value);
+                    doSave(radios[i].value, "text/latex", "result2.txt");
+                    window.location="demo_question2_line.html";
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
+            }
+        }
+
+
+
+
+
+
+    </SCRIPT>
+</head>
+
+<body >
+<center style="font-size:160%">Your answer</center>
+    <form>
+        <FORM NAME="myform" ACTION="" METHOD="GET">
+            <center style="font-size:160%">
+            <input type="radio" name="yesorno" value="Yes" checked> Yes
+            <br>
+            <input type="radio" name="yesorno" value="No"> No
+                <br>
+                <INPUT TYPE="button" NAME="button" Value="Submit" onClick="testResults(this.form)">
+            </center>
+        </FORM>
+    </form>
+</body>
+
