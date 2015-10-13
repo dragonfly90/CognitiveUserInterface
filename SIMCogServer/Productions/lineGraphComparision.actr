@@ -16,7 +16,7 @@
     (attend-maxpoint isa chunk)
     (findColor isa chunk)
     (attendcolor isa chunk)
-    (mygoal isa best-point state startRead labeldata "A" timestamp "04 PM" current "no" currentvaluel "no" currentvalueh "no" comparison "2" comparisonresult -1)
+    (mygoal isa best-point state startRead labeldata "A" timestamp1 "04 PM" timestamp "07 PM" current "no" currentvaluel "no" currentvalueh "no" currentvalue1 0 currentvalue2 0 comparison "2" comparisonresult -1 )
     (locate-xaxis isa chunk)
     (attend-xaxis isa chunk)
     (read-xaxis isa chunk)
