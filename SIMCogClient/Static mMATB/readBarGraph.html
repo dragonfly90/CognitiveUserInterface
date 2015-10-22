@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <style>
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+            stroke-width: 2px;
+        }
+
+        .axis text {
+            font-family: sans-serif;
+            font-size: 22px;
+        }
+
+        .y1 {
+            fill: white;
+            stroke: orange;
+            stroke-width: 3px;
+        }
+
+        .y2 {
+            fill: white;
+            stroke: red;
+            stroke-width: 3px;
+        }
+
+        .y3 {
+            fill: white;
+            stroke: steelblue;
+            stroke-width: 3px;
+        }
+
+        .line {
+            fill: none;
+            stroke-width: 3px;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            height: 20px;
+            padding: 10px;
+            font: 20px sans-serif;
+            background: whiteSmoke;
+            border: solid 2px #aaa;
+            pointer-events: none;
+            box-shadow: 4px 4px 2px #888;
+        }
+
+        .legend {
+            padding: 10px;
+            font: 26px sans-serif;
+            background: yellow;
+            box-shadow: 4px 4px 2px #888;
+        }
+
+        .title {
+            font: 26px sans-serif;
+        }
+    </style>
+</head>
+
+<body >
+    <script src="d3/d3.v3.min.js"></script>
+    <script src="readBar.js"></script>
+    <script src="jquery-1.11.0.js"></script>
+
+
+
+
+<script>
+
+
+//Width and height
+var w = screen.width/2;
+var h = screen.height/2;
+var padding = 50;
+
+var product1=[];
+var product2=[];
+var product3=[];
+
+for (i=0;i<6;i++){
+    product1.push(Math.random()*4+0.5);
+    product2.push(Math.random()*4+0.5);
+    product3.push(Math.random()*4+0.5);
+}
+
+var now = d3.time.hour.utc(new Date('December 17, 2014 20:00:00'));
+var dataset = [
+               [
+                    {x: d3.time.hour.utc.offset(now, -5), y: product1[0]},
+                    {x: d3.time.hour.utc.offset(now, -4), y: product1[1]},
+                    {x: d3.time.hour.utc.offset(now, -3), y: product1[2]},
+                    {x: d3.time.hour.utc.offset(now, -2), y: product1[3]},
+                    {x: d3.time.hour.utc.offset(now, -1), y: product1[4]},
+                    {x: now, y: product1[5]}
+                ],
+               [
+                    {x: d3.time.hour.utc.offset(now, -5), y: product2[0]},
+                    {x: d3.time.hour.utc.offset(now, -4), y: product2[1]},
+                    {x: d3.time.hour.utc.offset(now, -3), y: product2[2]},
+                    {x: d3.time.hour.utc.offset(now, -2), y: product2[3]},
+                    {x: d3.time.hour.utc.offset(now, -1), y: product2[4]},
+                    {x: now, y: product2[5]}
+                ],
+               [
+                    {x: d3.time.hour.utc.offset(now, -5), y: product3[0]},
+                    {x: d3.time.hour.utc.offset(now, -4), y: product3[1]},
+                    {x: d3.time.hour.utc.offset(now, -3), y: product3[2]},
+                    {x: d3.time.hour.utc.offset(now, -2), y: product3[3]},
+                    {x: d3.time.hour.utc.offset(now, -1), y: product3[4]},
+                    {x: now, y: product3[5]}
+                ]
+               ];
+
+var color_hash = {  0 : ["A", "green"],1 : ["B", "orange"],2 : ["C", "red"]}
+
+
+// Create SVG element
+var svg = d3.select("body")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h)
+        .attr("id",'diagram');
+
+
+// Define axis ranges & scales
+var yExtents = d3.extent(d3.merge(dataset), function (d) { return d.y; });
+var xExtents = d3.extent(d3.merge(dataset), function (d) { return d.x; });
+
+var xScale = d3.time.scale()
+.domain([xExtents[0], xExtents[1]])
+.range([padding+30, w - padding * 2]);
+
+var yScale = d3.scale.linear()
+.domain([0, yExtents[1]])
+.range([h - padding, padding]);
+
+
+
+
+
+//Draw Bars
+svg.selectAll("bar")
+.data(dataset[0])
+.enter().append("rect")
+.style("fill", "green")
+.attr("x", function(d){return xScale(d.x)-30;})
+.attr("width", 20)
+.attr("y", function(d){return yScale(d.y)})
+.attr("height", function(d) { return h-padding-yScale(d.y); })
+.attr("id",function(d,i){return 'bar1'+i;});
+
+
+svg.selectAll("bar")
+.data(dataset[1])
+.enter().append("rect")
+.style("fill", "orange")
+.attr("x", function(d){return xScale(d.x)-10;})
+.attr("width", 20)
+.attr("y", function(d){return yScale(d.y)})
+.attr("height", function(d) { return h-padding-yScale(d.y); })
+.attr("id",function(d,i){return 'bar2'+i;});
+
+svg.selectAll("bar")
+.data(dataset[2])
+.enter().append("rect")
+.style("fill", "red")
+.attr("x", function(d){return xScale(d.x)+10;})
+.attr("width", 20)
+.attr("y", function(d){return yScale(d.y)})
+.attr("height", function(d) { return h-padding-yScale(d.y); })
+.attr("id",function(d,i){return 'bar3'+i;});
+
+
+/*
+//Define X axis
+var xAxis = d3.svg.axis()
+.scale(xScale)
+.orient("bottom")
+.ticks(5);
+
+//Define Y axis
+var yAxis = d3.svg.axis()
+.scale(yScale)
+.orient("left")
+.ticks(5);
+
+//Add X axis
+svg.append("g")
+.attr("class", "axis")
+.attr("transform", "translate(0," + (h - padding) + ")")
+.call(xAxis);
+
+//Add Y axis
+svg.append("g")
+.attr("class", "axis")
+.attr("transform", "translate(" + padding + ",0)")
+.call(yAxis);
+
+// Add title
+svg.append("svg:text")
+.attr("class", "title")
+.attr("x", 40)
+.attr("y", 40)
+.text("Product Sold Per Hour");
+
+
+
+
+*/
+
+// add legend
+var legend = svg.append("g")
+        .attr("class", "legend")
+//.attr("x", w - 65)
+//.attr("y", 50)
+        .attr("height", 200)
+        .attr("width", 200)
+        .attr('transform', 'translate(-20,50)')
+
+legend.selectAll('rect')
+        .data(dataset)
+        .enter()
+        .append("rect")
+        .attr("x", w - 40)
+        .attr("y", function(d, i){ return i *  40;})
+        .attr("width", 20)
+        .attr("height", 20)
+        .style("fill", function(d) {
+            var color = color_hash[dataset.indexOf(d)][1];
+            return color;
+        })
+        .attr('id',function(d,i){return "rectangle"+i;});
+
+legend.selectAll('text')
+        .data(dataset)
+        .enter()
+        .append("text")
+        .attr("x", w - 20)
+        .attr("y", function(d, i){ return i *  40 + 18;})
+        .text(function(d) {
+            var text = color_hash[dataset.indexOf(d)][0];
+            return text;
+        })
+        .attr('id',function(d,i){return "label"+i;});;
+
+</script>
+</body>
+

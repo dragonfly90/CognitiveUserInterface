@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1bc8cd0f-641a-4136-8832-981e38299287" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Static mMATB/bar1.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../D3.js-Diverging-Stacked-Bar-Chart" afterPath="$PROJECT_DIR$/../D3.js-Diverging-Stacked-Bar-Chart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SIMCogServer/Productions/PointReadingQuestion.actr" afterPath="$PROJECT_DIR$/../SIMCogServer/Productions/PointReadingQuestion.actr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Experiment1/zeyuan/testjava.py" afterPath="$PROJECT_DIR$/../Experiment1/zeyuan/testjava.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SIMCogServer/bin/actr/tasks/ActrInterface/SIMCogACTR.class" afterPath="$PROJECT_DIR$/../SIMCogServer/bin/actr/tasks/ActrInterface/SIMCogACTR.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SIMCogServer/bin/actr/tasks/ActrInterface/VisualObject.class" afterPath="$PROJECT_DIR$/../SIMCogServer/bin/actr/tasks/ActrInterface/VisualObject.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SIMCogServer/Productions/PointingReadQuestion2.actr" afterPath="$PROJECT_DIR$/../SIMCogServer/Productions/PointingReadQuestion2.actr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SIMCogServer/src/actr/tasks/ActrInterface/SIMCogACTR.java" afterPath="$PROJECT_DIR$/../SIMCogServer/src/actr/tasks/ActrInterface/SIMCogACTR.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../SIMCogServer/src/actr/tasks/ActrInterface/VisualObject.java" afterPath="$PROJECT_DIR$/../SIMCogServer/src/actr/tasks/ActrInterface/VisualObject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SIMCogClient.iws" />
@@ -26,31 +30,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="readLineGraph.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="readLineGraph.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Static mMATB/readLineGraph.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35430464">
-              <caret line="261" column="38" selection-start-line="261" selection-start-column="38" selection-end-line="261" selection-end-column="38" />
+            <state vertical-scroll-proportion="25.0">
+              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/react-tutorial/public/index.html">
+      <file leaf-file-name="readBar.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Static mMATB/readBar.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+              <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IntegratedSolution.go" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/GoAws/src/github.com/AWS_CLI/IntegratedSolution.go">
+      <file leaf-file-name="readBarGraph.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Static mMATB/readBarGraph.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.5771144">
+              <caret line="245" column="25" selection-start-line="245" selection-start-column="25" selection-end-line="245" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bar1.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Static mMATB/bar1.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-123.125">
+              <caret line="278" column="58" selection-start-line="254" selection-start-column="4" selection-end-line="278" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -72,9 +86,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Static mMATB/SIMCogLineChart2.js" />
-        <option value="$PROJECT_DIR$/Static mMATB/linechartSimple2.html" />
-        <option value="$USER_HOME$/dragonfly90.github.io/s/charts/switchDemo.html" />
         <option value="$USER_HOME$/dragonfly90.github.io/s/charts/linechart2.html" />
         <option value="$USER_HOME$/dragonfly90.github.io/s/charts/radar.html" />
         <option value="$USER_HOME$/dragonfly90.github.io/s/charts/barchart1.html" />
@@ -123,6 +134,9 @@
         <option value="$USER_HOME$/GoAws/src/github.com/AWS_CLI/IntegratedSolution.go" />
         <option value="$PROJECT_DIR$/Static mMATB/readLineGraph.html" />
         <option value="$USER_HOME$/react-tutorial/public/indextest.html" />
+        <option value="$PROJECT_DIR$/Static mMATB/bar1.html" />
+        <option value="$PROJECT_DIR$/Static mMATB/readBar.js" />
+        <option value="$PROJECT_DIR$/Static mMATB/readBarGraph.html" />
       </list>
     </option>
   </component>
@@ -134,9 +148,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="351" />
     <option name="y" value="23" />
-    <option name="width" value="1280" />
-    <option name="height" value="725" />
+    <option name="width" value="1006" />
+    <option name="height" value="724" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -161,7 +176,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -183,6 +197,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -251,26 +266,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="725" extended-state="0" />
-    <editor active="false" />
+    <frame x="351" y="23" width="1006" height="724" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17890625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22763419" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -291,28 +306,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/GoAws/src/github.com/AWS_CLI/IntegratedSolution.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Static mMATB/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="224" column="32" selection-start-line="224" selection-start-column="25" selection-end-line="224" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Static mMATB/MAT-B_Styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Static mMATB/MAT-B_Styles.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -617,26 +610,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/GoAws/src/github.com/AWS_CLI/IntegratedSolution.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/react-tutorial/public/indextest.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.689655">
           <caret line="104" column="18" selection-start-line="104" selection-start-column="18" selection-end-line="104" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/react-tutorial/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -647,10 +624,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/react-tutorial/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41379312">
+          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/GoAws/src/github.com/AWS_CLI/IntegratedSolution.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Static mMATB/bar1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-123.125">
+          <caret line="278" column="58" selection-start-line="254" selection-start-column="4" selection-end-line="278" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Static mMATB/readLineGraph.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35430464">
-          <caret line="261" column="38" selection-start-line="261" selection-start-column="38" selection-end-line="261" selection-end-column="38" />
+        <state vertical-scroll-proportion="25.0">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Static mMATB/readBar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Static mMATB/readBarGraph.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5771144">
+          <caret line="245" column="25" selection-start-line="245" selection-start-column="25" selection-end-line="245" selection-end-column="25" />
           <folding />
         </state>
       </provider>

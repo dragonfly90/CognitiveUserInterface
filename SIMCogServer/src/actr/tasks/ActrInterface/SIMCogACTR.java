@@ -258,7 +258,7 @@ public class SIMCogACTR extends Task implements RequestHandler {
 	 * 
 	 * Objects default to being task relevant, Color will default to black
 	 */
-	public void cycleVisObjectsListToMap(ArrayList<VisualObject> visObjects) {
+	public void cycleVisObjectsListToMap(ArrayList<VisualObject> visObjects) {//it seems that we need to change this
 		for (int i = 0; i < visObjects.size(); i++) {
 
 			VisualObject adding = visObjects.get(i);
@@ -534,6 +534,11 @@ public class SIMCogACTR extends Task implements RequestHandler {
 					if (adding.isClickAble()) {
 						clickAbleItems.add(adding);
 					}
+					if(adding.getType().equals("diagonalLine")) ///added by Liang Dong, diagonal line
+					{
+						TaskLine newline2=new TaskLine(adding.getX(),adding.getY(),adding.getWidth(),adding.getHeight(),myColor);
+					}
+					else
 					if (adding.getType().equals("Line")) {
 						TaskLine newLine = new TaskLine(adding.getX(),
 								adding.getY(), adding.getWidth(),

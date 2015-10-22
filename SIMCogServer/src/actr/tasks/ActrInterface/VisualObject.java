@@ -11,6 +11,8 @@ public class VisualObject {
 	private String type; // Structure type, rectangle, line, oval etc
 	private int x; // X location
 	private int y; // Y location
+	private int xend;
+	private int yend;
 	private int height; // Height
 	private int width; // Width
 	private String color; // Color
@@ -25,7 +27,7 @@ public class VisualObject {
 		super();
 	}
 
-	public VisualObject(String id, String type, int x, int y, int height,
+	public VisualObject(String id, String type, int x, int y, int xend, int yend, int height,
 			int width, String color, boolean taskRelevant, String stringVal,
 			int thickness, boolean clickAble, String secondaryColor) {
 		super();
@@ -33,6 +35,8 @@ public class VisualObject {
 		this.type = type;
 		this.x = x;
 		this.y = y;
+		this.xend=xend;
+		this.yend=yend;
 		this.height = height;
 		this.width = width;
 		this.color = color;
@@ -42,7 +46,28 @@ public class VisualObject {
 		this.clickAble = clickAble;
 		this.secondaryColor = secondaryColor;
 	}
-
+	
+	public VisualObject(String id, String type, int x, int y, int height,
+			int width, String color, boolean taskRelevant, String stringVal,
+			int thickness, boolean clickAble, String secondaryColor) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.x = x;
+		this.y = y;
+		this.xend=x;
+		this.yend=y;
+		this.height = height;
+		this.width = width;
+		this.color = color;
+		this.taskRelevant = taskRelevant;
+		this.stringVal = stringVal;
+		this.thickness = thickness;
+		this.clickAble = clickAble;
+		this.secondaryColor = secondaryColor;
+	}
+	
+	
 	public boolean isTaskRelevant() {
 		return taskRelevant;
 	}

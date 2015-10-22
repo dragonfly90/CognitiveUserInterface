@@ -1,0 +1,29 @@
+(set-task "actr.tasks.ActrInterface.SIMCogACTR")
+
+
+(add-dm
+    (find-first isa chunk)
+    (attend-first isa chunk)
+    (find-next isa chunk)
+    (attend-next isa chunk)
+    (attend-next2 isa chunk)
+    (attend-maxpoint isa chunk)
+    (mygoal isa best-point state find-first))
+
+(p find-first-point
+    =goal>
+        isa            best-point
+        state          find-first
+    ?visual>
+        state          free
+==>
+    =goal>
+        state         attend-first
+    +visual-location>
+        isa           visual-location
+        screen-x      lowest
+        color green
+)
+
+
+(goal-focus mygoal)
