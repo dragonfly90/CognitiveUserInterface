@@ -179,7 +179,7 @@ svg.selectAll("bar")
 .attr("id",function(d,i){return 'bar3'+i;});
 
 
-/*
+
 //Define X axis
 var xAxis = d3.svg.axis()
 .scale(xScale)
@@ -193,16 +193,24 @@ var yAxis = d3.svg.axis()
 .ticks(5);
 
 //Add X axis
-svg.append("g")
-.attr("class", "axis")
-.attr("transform", "translate(0," + (h - padding) + ")")
-.call(xAxis);
+    svg.append("g")
+            .attr("class", "axis")
+        .attr("transform", "translate(0," + (h - padding) + ")")
+        .call(xAxis)
+            .attr("id","xis");
+
+d3.select("#xis").selectAll("text").attr("id", function(d,i) {return "xians" + i});
+d3.select("#xis").selectAll("line").attr("id",function(d,i){return "xline"+i});
 
 //Add Y axis
-svg.append("g")
-.attr("class", "axis")
-.attr("transform", "translate(" + padding + ",0)")
-.call(yAxis);
+    svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(" + padding + ",0)")
+      .call(yAxis)
+            .attr("id","yis");
+
+d3.select("#yis").selectAll("text").attr("id", function(d,i) {return "yams" + i});
+d3.select("#yis").selectAll("line").attr("id",function(d,i){return "yline"+i});
 
 // Add title
 svg.append("svg:text")
@@ -214,7 +222,7 @@ svg.append("svg:text")
 
 
 
-*/
+
 
 // add legend
 var legend = svg.append("g")

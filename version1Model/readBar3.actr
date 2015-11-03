@@ -16,7 +16,7 @@
     (attend-maxpoint isa chunk)
     (findColor isa chunk)
     (attendcolor isa chunk)
-    (mygoal isa best-point state startRead labeldata "A" timestamp "04 PM" current "no" currentvaluel "no" currentvalueh "no" comparison "2" comparisonresult -1)
+    (mygoal isa best-point state startRead labeldata "B" timestamp "04 PM" timestamp2 "06 PM" current "no" currentvaluel "no" currentvalueh "no" curren2 "no" comparison "2" comparisonresult -1 point 1 yvalue1 0 )
     (locate-xaxis isa chunk)
     (attend-xaxis isa chunk)
     (read-xaxis isa chunk)
@@ -35,12 +35,12 @@
     (read-yaxish isa chunk)
     (comparions isa chunk)
     (lessvalue isa chunk)
+    (locatey isa chunk)
     (morevalue isa chunk)
     (a ISA count-order1 first "1" second "2" third 0)
     (b ISA count-order1 first "2" second "2" third 0)
-    (c ISA count-order1 first "3" second "2" third 1)
-    (d ISA count-order1 first "4" second "2" third 1)
-    (e ISA count-order1 first "0" second "2" third 0)
+    (c ISA count-order2 first "3" second "2" third 1)
+    (d ISA count-order2 first "4" second "2" third 1)
 )
 
 (p associate-color-with-label
@@ -52,7 +52,7 @@
 ==>
     +visual-location>
         isa visual-location
-        > screen-x 580
+        > screen-x 500
         screen-x highest
         screen-y lowest
     =goal>
@@ -140,7 +140,7 @@
 ==>
     +visual-location>
         isa visual-location
-        screen-x =currentx    
+        > screen-x 610  
         > screen-y =currenty
         screen-y lowest
     =goal>
@@ -257,14 +257,32 @@
     =goal>
         isa best-point
         state read-xaxis
+        point 1
         timestamp =currenttime
         current =currenttime
 ==>
     =goal>
         state read-line
         !output!(=currenttime)
+    -visual-location>
     -visual>
 )
+
+(p justify-xaxis12
+    =goal>
+        isa best-point
+        state read-xaxis
+        point 2
+        timestamp2 =currenttime
+        current =currenttime
+==>
+    =goal>
+        state read-line
+        !output!(=currenttime)
+    -visual-location>
+    -visual>
+)
+
 
 
 (p locate-point 
@@ -279,9 +297,8 @@
 ==>
     +visual-location>
         isa visual-location
+        screen-x =current-x
         color =currentcolor
-        <= screen-x =current-x
-        screen-x highest
     =goal>
         state locatePoint
 )
@@ -290,11 +307,11 @@
     =goal>
         isa best-point
         state locatePoint
+        
     =visual-location>
         isa visual-location
         screen-x     =screen-x
         screen-y     =screen-y
-        height =height
     ?visual>
         state free
 ==>
@@ -305,21 +322,59 @@
         state attendPoint
         currentx =screen-x
         currenty =screen-y
-        height =height
-        
-        !output!(=screen-x)
         !output!(=screen-y)
-        !output!(=height)
 )
 
-(p read-point
+
+
+(p read-point1
     =goal>
         isa best-point
         state attendPoint
+        point 1
+        currenty =screen-y
+    =visual>
+==>
+    =goal>
+        state find-first
+        point 2
+        yvalue1 =screen-y
+    -visual-location>
+    -visual>
+)
+
+
+
+(p read-point2
+    =goal>
+        isa best-point
+        state attendPoint
+        currenty =screen-y
+        < yvalue1 =screen-y
+        point 2
     =visual>
 ==>
     =goal>
         state readPoint
+        comparisonresult -1
+        !output!(-1)
+    -visual-location>
+    -visual>
+)
+
+(p read-point3
+    =goal>
+        isa best-point
+        state attendPoint
+        currenty =screen-y
+        > yvalue1 =screen-y
+        point 2
+    =visual>
+==>
+    =goal>
+        state readPoint
+        comparisonresult 1
+        !output!(1)
     -visual-location>
     -visual>
 )
@@ -327,10 +382,9 @@
 (p locate-y-axis
     =goal>
         isa best-point
-        state readPoint
+        state locatey
         currentx =screen-x
         currenty =screen-y
-        height =height
     ?visual>
         state free
 ==>
@@ -460,7 +514,7 @@
     =goal>
         state lessvalue
     +retrieval>
-        ISA         count-order1
+        ISA         count-order2
         first       =num1
         second "2"
 )
@@ -488,6 +542,7 @@
     =goal>
         isa best-point
         state read-xaxis
+        point 1
         timestamp =currenttime
         - current =currenttime
 ==>
@@ -498,6 +553,20 @@
     -visual>
 )
 
+(p justify-xaxis22
+    =goal>
+        isa best-point
+        state read-xaxis
+        point 2
+        timestamp2 =currenttime
+        - current =currenttime
+==>
+    =goal>
+        state search-up-xaxis
+        !output!(=currenttime)
+    -visual-location>
+    -visual>
+)
 (p justify-xaxis3
     =goal>
         isa best-point

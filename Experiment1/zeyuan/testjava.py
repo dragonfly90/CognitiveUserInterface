@@ -124,7 +124,9 @@ for j in range(1,21):
     #elif k == ord('s'): # wait for 's' key to save and exit
     #    cv2.imwrite('eyetribe1l.jpeg',img)
     #    cv2.destroyAllWindows()
-    print lens
+    print j
+    print lens/30.0
+    print "--------------------"
     savefie="test"+str(j)+".png"
     im.save(savefie)
 #res=cv2.resize(img,(width/2, height/2), interpolation = cv2.INTER_LINEAR)

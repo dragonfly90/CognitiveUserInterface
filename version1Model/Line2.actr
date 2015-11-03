@@ -38,6 +38,7 @@
     (morevalue isa chunk)
     (end isa chunk)
     (end2 isa chunk)
+    (search-current-axis isa chunk)
     (a ISA count-order1 first "1" second "2" third 0)
     (b ISA count-order1 first "2" second "2" third 0)
     (c ISA count-order2 first "3" second "2" third 1)
@@ -288,10 +289,12 @@
     =visual>
         isa text
         value =currenttime 
+        
 ==>
     =goal>
         state read-xaxis
         current =currenttime
+        
     -visual-location>
     -visual>
         !output!(=currenttime)
@@ -383,7 +386,7 @@
     =visual>
 ==>
     =goal>
-        state  read-line
+        state  search-current-xaxis
         currenty1 =screen-y
     -visual-location>
     -visual>
@@ -394,7 +397,6 @@
         isa best-point
         state attendPoint
         currenty =screen-y
-        
         readlabel 2
     =visual>
 ==>
@@ -622,6 +624,23 @@
     -visual-location>
     -visual>
 )
+
+(p locate-current-xaxis   
+    =goal>
+        isa best-point
+        state search-current-xaxis
+        currentx =screen-x
+    ?visual>
+        state free
+==>
+    +visual-location>
+        isa visual-location
+        > screen-y 365
+        screen-x =screen-x
+    =goal>
+        state locate-xaxis
+)
+
 
 (p locate-down-xaxis
     =goal>
