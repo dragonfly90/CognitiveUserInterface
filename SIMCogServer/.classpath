@@ -6,6 +6,6 @@
 	<classpathentry kind="lib" path="CurrentLibs/jsonrpc2-base-1.35.jar"/>
 	<classpathentry kind="lib" path="CurrentLibs/jsonrpc2-server-1.10.1.jar"/>
 	<classpathentry kind="lib" path="CurrentLibs/SIMCogACTR.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_79]"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

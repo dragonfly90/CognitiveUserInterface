@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import cv2
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -8,7 +8,6 @@ import os
 # timing
 
 
-print cv2.__version__
 
 
 
