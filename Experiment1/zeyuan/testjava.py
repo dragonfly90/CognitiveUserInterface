@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import cv2
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -8,7 +8,6 @@ import os
 # timing
 
 
-print cv2.__version__
 
 
 
@@ -41,7 +40,8 @@ for j in range(1,21):
     font=ImageFont.truetype("arial.ttf", 30)
 
 
-
+    region1=0
+    region2=0
     with open(outputfile) as my_file:
         lens=0
         for line in my_file:
@@ -50,10 +50,15 @@ for j in range(1,21):
             if len(temp)==3:
                 testsite_arrayx.append(temp[0])
                 testsite_arrayy.append(temp[1])
-            
+                            
                 x=abs(int(float(temp[0])))
                 y=abs(int(float(temp[1])))
                 if x!=0 and y!=0:
+                    if(x>1200-100 and y<100*2):
+                        region1=region1+1
+                    if(y>800-100):
+                        region2=region2+1
+                    
                     if previousx!=-1:
                         #draw.line((previousx,previousy, x,y), fill=(0,0,0))
                         #draw.ellipse((x-2, y-2, x+2, y+2),fill=(255,0,255))
@@ -125,6 +130,8 @@ for j in range(1,21):
     #    cv2.imwrite('eyetribe1l.jpeg',img)
     #    cv2.destroyAllWindows()
     print j
+    print (region1)/30.0
+    print (region2)/30.0
     print lens/30.0
     print "--------------------"
     savefie="test"+str(j)+".png"

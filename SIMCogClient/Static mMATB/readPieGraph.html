@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <style>
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+            stroke-width: 2px;
+        }
+
+        .axis text {
+            font-family: sans-serif;
+            font-size: 22px;
+        }
+
+        .y1 {
+            fill: white;
+            stroke: orange;
+            stroke-width: 3px;
+        }
+
+        .y2 {
+            fill: white;
+            stroke: red;
+            stroke-width: 3px;
+        }
+
+        .y3 {
+            fill: white;
+            stroke: steelblue;
+            stroke-width: 3px;
+        }
+
+        .line {
+            fill: none;
+            stroke-width: 3px;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            height: 20px;
+            padding: 10px;
+            font: 20px sans-serif;
+            background: whiteSmoke;
+            border: solid 2px #aaa;
+            pointer-events: none;
+            box-shadow: 4px 4px 2px #888;
+        }
+
+        .legend {
+            padding: 10px;
+            font: 26px sans-serif;
+            background: yellow;
+            box-shadow: 4px 4px 2px #888;
+        }
+
+        .title {
+            font: 26px sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+        <script src="d3/d3.v3.min.js"></script>
+        <script src="readLineGraph.js"></script>
+        <script src="jquery-1.11.0.js"></script>
+      <div id="chart"></div>
+
+        <script>
+
+var w = 400;
+var h = 400;
+var r = h/2;
+var color = d3.scale.category20c();
+
+var data = [{"label":"Category A", "value":20},
+		          {"label":"Category B", "value":50},
+		          {"label":"Category C", "value":30}];
+                  
+                  
+                  var vis = d3.select('#chart').append("svg:svg").data([data]).attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
+                  var pie = d3.layout.pie().value(function(d){return d.value;});
+                  
+                  // declare an arc generator function
+                  var arc = d3.svg.arc().outerRadius(r);
+                  
+                  // select paths, use arc generator to draw
+                  var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+                  arcs.append("svg:path")
+                  .attr("fill", function(d, i){
+                        return color(i);
+                        })
+                        .attr("d", function (d) {
+                              // log the result of the arc generator to show how cool it is :)
+                              console.log(arc(d));
+                              return arc(d);
+                              });
+                              
+                              // add the text
+                              arcs.append("svg:text").attr("transform", function(d){
+                                                           d.innerRadius = 0;
+                                                           d.outerRadius = r;
+                                                           return "translate(" + arc.centroid(d) + ")";}).attr("text-anchor", "middle").text( function(d, i) {
+                                                                                                                                             return data[i].label;}
+                                                                                                                                             );
+        </script>
+</body>
