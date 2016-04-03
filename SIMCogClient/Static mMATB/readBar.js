@@ -72,8 +72,9 @@ setTimeout(function(){
         {type : "Line", id : "yline3", change : "static"},
         {type : "Line", id : "yline4", change : "static"},
 
-        //{type : "Line", id : "xis", change : "static"},
-        //{type : "Line", id : "yis", change : "static"},
+                     
+        {type : "Line", id : "xaxisline", change : "static"},
+        {type : "Line", id : "yaxisline", change : "static"},
 
 
         //{type : "Line", id : "line2", change : "static", color : "red"}

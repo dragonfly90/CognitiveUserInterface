@@ -15,7 +15,7 @@ setTimeout(function(){
       //{type : "Line", id : "line1", width: 10, change : "static"}, //Newer inline styles in chrome.
       //{type : "Line", id : "line2", width: 10, change : "static"},
       //{type : "Line", id : "line3", width: 10, change : "static"}, //Newer inline styles in chrome.
-      {type : "diagonalLine", id : "specialLine", color:"green", change : "static"},
+      {type : "Diagonal", id : "specialLine", color:"red", change : "static"},
      
       {type : "Line", id : "specialLine2", change : "static", color : "red"}
   ];
@@ -679,9 +679,9 @@ var updateAllItemValues = function(currentObject){
         toPush.color = getColor(domOfCurrent,currentObject, "0");
         toPush.type = "Label";
     }
-    else if(currentObject.type == "diagonalLine") {
+    else if(currentObject.type == "Diagonal") {
 
-        toPush.type == "diagonalLine";
+        toPush.type = "Diagonal";
         var h = toPush.height;
         var w = toPush.width;
         console.log('x2');

@@ -71,6 +71,7 @@
         <script src="jquery-1.11.0.js"></script>
 
 
+
         <script>
 
             //Width and height
@@ -123,6 +124,7 @@
                     {x: now, y: product3[5]}
                 ]
             ];
+            var datano= []
 
             var color_hash = {  0 : ["A", "green"],1 : ["B", "orange"],2 : ["C", "red"]}
 
@@ -148,6 +150,7 @@
 
 
             // Define lines
+            /*
             var line = d3.svg.line()
                     .x(function(d) { return x(d.x); })
                     .y(function(d) { return y(d.y1, d.y2, d.y3); });
@@ -161,24 +164,174 @@
                         return "stroke: " + color_hash[dataset.indexOf(d)][1];
                     })
                     .attr("id",function(d){return "line"+dataset.indexOf(d)});
-
+            */
+            /*
             pathContainers.selectAll('path')
                     .data(function (d) { return [d]; }) // continues the data from the pathContainer
                     .enter().append('path')
+                    .attr('id',function(d,i){return 'current'+i.toString();})
                     .attr('d', d3.svg.line()
                             .x(function (d) { return xScale(d.x); })
                             .y(function (d) { return yScale(d.y); })
             );
+             */
+        
+            /*
+            console.log(xScale(dataset[0][0].x));
+            console.log(yScale(dataset[0][0].y));
+            console.log(xScale(dataset[0][1].x));
+            console.log(yScale(dataset[0][1].y));
+            */
+        
+            /* line 1*/
+            svg.append('line')
+            .style("stroke","black")
+            .attr("x1",50)
+            .attr("y1",50)
+            .attr("x2",50)
+            .attr("y2",350)
+            .attr("id",'yaxisline');
+            
+            
+            svg.append('line')
+            .style("stroke","black")
+            .attr("x1",50)
+            .attr("y1",350)
+            .attr("x2",540)
+            .attr("y2",350)
+            .attr("id",'xaxisline');
+            
+            svg.append('line')
+                .style("stroke","orange")
+                .attr('x1',parseInt(xScale(dataset[1][0].x)))
+                .attr('y1',parseInt(yScale(dataset[1][0].y)))
+                .attr('x2',parseInt(xScale(dataset[1][1].x)))
+                .attr('y2',parseInt(yScale(dataset[1][1].y)))
+                .attr('id', 'line1000');
+                
+             svg.append('line')
+                .style("stroke","orange")
+                .attr('x1',parseInt(xScale(dataset[1][1].x)))
+                .attr('y1',parseInt(yScale(dataset[1][1].y)))
+                .attr('x2',parseInt(xScale(dataset[1][2].x)))
+                .attr('y2',parseInt(yScale(dataset[1][2].y)))
+                .attr('id', 'line11');
+             
+            svg.append('line')
+                .style("stroke","orange")
+                .attr('x1',parseInt(xScale(dataset[1][2].x)))
+                .attr('y1',parseInt(yScale(dataset[1][2].y)))
+                .attr('x2',parseInt(xScale(dataset[1][3].x)))
+                .attr('y2',parseInt(yScale(dataset[1][3].y)))
+                .attr('id', 'line12');
 
+            svg.append('line')
+                .style("stroke","orange")
+                .attr('x1',xScale(dataset[1][3].x))
+                .attr('y1',yScale(dataset[1][3].y))
+                .attr('x2',xScale(dataset[1][4].x))
+                .attr('y2',yScale(dataset[1][4].y))
+                .attr('id', 'line13');
+
+            svg.append('line')
+                .style("stroke","orange")
+                .attr('x1',xScale(dataset[1][4].x))
+                .attr('y1',yScale(dataset[1][4].y))
+                .attr('x2',xScale(dataset[1][5].x))
+                .attr('y2',yScale(dataset[1][5].y))
+                .attr('id', 'line14');
+            
+            /* line 0 */
+
+            svg.append('line')
+                .style("stroke","green")
+                .attr('x1',xScale(dataset[0][0].x) )
+                .attr('y1',yScale(dataset[0][0].y) )
+                .attr('x2',xScale(dataset[0][1].x))
+                .attr('y2',yScale(dataset[0][1].y) )
+                .attr('id', 'line00');
+
+            svg.append('line')
+                .style("stroke","green")
+                .attr('x1',xScale(dataset[0][1].x) )
+                .attr('y1',yScale(dataset[0][1].y) )
+                .attr('x2',xScale(dataset[0][2].x))
+                .attr('y2',yScale(dataset[0][2].y) )
+                .attr('id', 'line01');
+
+            svg.append('line')
+                .style("stroke","green")
+                .attr('x1',xScale(dataset[0][2].x) )
+                .attr('y1',yScale(dataset[0][2].y) )
+                .attr('x2',xScale(dataset[0][3].x))
+                .attr('y2',yScale(dataset[0][3].y) )
+                .attr('id', 'line02');
+
+            svg.append('line')
+                .style("stroke","green")
+                .attr('x1',xScale(dataset[0][3].x) )
+                .attr('y1',yScale(dataset[0][3].y) )
+                .attr('x2',xScale(dataset[0][4].x))
+                .attr('y2',yScale(dataset[0][4].y) )
+                .attr('id', 'line03');
+
+            svg.append('line')
+                .style("stroke","green")
+                .attr('x1',xScale(dataset[0][4].x) )
+                .attr('y1',yScale(dataset[0][4].y) )
+                .attr('x2',xScale(dataset[0][5].x))
+                .attr('y2',yScale(dataset[0][5].y) )
+                .attr('id', 'line04');
+
+            /* line 2 */
+            svg.append('line')
+                .style("stroke","red")
+                .attr('x1',xScale(dataset[2][0].x) )
+                .attr('y1',yScale(dataset[2][0].y) )
+                .attr('x2',xScale(dataset[2][1].x))
+                .attr('y2',yScale(dataset[2][1].y) )
+                .attr('id', 'line20');
+
+            svg.append('line')
+                .style("stroke","red")
+                .attr('x1',xScale(dataset[2][1].x) )
+                .attr('y1',yScale(dataset[2][1].y) )
+                .attr('x2',xScale(dataset[2][2].x))
+                .attr('y2',yScale(dataset[2][2].y) )
+                .attr('id', 'line21');
+
+            svg.append('line')
+                .style("stroke","red")
+                .attr('x1',xScale(dataset[2][2].x) )
+                .attr('y1',yScale(dataset[2][2].y) )
+                .attr('x2',xScale(dataset[2][3].x))
+                .attr('y2',yScale(dataset[2][3].y) )
+                .attr('id', 'line22');
+
+            svg.append('line')
+                .style("stroke","red")
+                .attr('x1',xScale(dataset[2][3].x) )
+                .attr('y1',yScale(dataset[2][3].y) )
+                .attr('x2',xScale(dataset[2][4].x))
+                .attr('y2',yScale(dataset[2][4].y) )
+                .attr('id', 'line23');
+
+            svg.append('line')
+                .style("stroke","red")
+                .attr('x1',xScale(dataset[2][4].x) )
+                .attr('y1',yScale(dataset[2][4].y) )
+                .attr('x2',xScale(dataset[2][5].x))
+                .attr('y2',yScale(dataset[2][5].y) )
+                .attr('id', 'line24');
             // add circles
 
             svg.selectAll('diagram')
                     .data(dataset[1])
                     .enter().append('circle')
                     .style("fill", "orange")
-                    .attr('cx', function (d) { return xScale(d.x); })
-                    .attr('cy', function (d) { return yScale(d.y); })
-                    .attr('r', 3)
+                    .attr('cx', function (d) { return (parseInt(xScale(d.x))); })
+                    .attr('cy', function (d) { return (parseInt(yScale(d.y))); })
+                    .attr('r', 5)
                     .attr('id',function(d,i){return "point2"+i;});
 
 
@@ -186,9 +339,9 @@
                     .data(dataset[0])
                     .enter().append('circle')
                     .style("fill", "green")
-                    .attr('cx', function (d) { return xScale(d.x); })
-                    .attr('cy', function (d) { return yScale(d.y); })
-                    .attr('r', 3)
+                    .attr('cx', function (d) { return parseInt(xScale(d.x)); })
+                    .attr('cy', function (d) { return parseInt(yScale(d.y)); })
+                    .attr('r', 5)
                     .attr('id',function(d,i){return "point1"+i;});
 
 
@@ -197,10 +350,11 @@
                     .data(dataset[2])
                     .enter().append('circle')
                     .style("fill", "red")
-                    .attr('cx', function (d) { return xScale(d.x); })
-                    .attr('cy', function (d) { return yScale(d.y); })
-                    .attr('r', 3)
+                    .attr('cx', function (d) { return parseInt(xScale(d.x)); })
+                    .attr('cy', function (d) { return parseInt(yScale(d.y)); })
+                    .attr('r', 5)
                     .attr('id',function(d,i){return "point3"+i;});
+
 
             //Define X axis
             var xAxis = d3.svg.axis()

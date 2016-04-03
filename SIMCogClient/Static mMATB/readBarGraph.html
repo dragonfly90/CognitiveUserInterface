@@ -222,8 +222,6 @@ svg.append("svg:text")
 
 
 
-
-
 // add legend
 var legend = svg.append("g")
         .attr("class", "legend")
@@ -258,6 +256,24 @@ legend.selectAll('text')
             return text;
         })
         .attr('id',function(d,i){return "label"+i;});;
+        
+        
+        svg.append('line')
+        .style("stroke","black")
+        .attr("x1",50)
+        .attr("y1",50)
+        .attr("x2",50)
+        .attr("y2",350)
+        .attr("id",'yaxisline');
+        
+        
+        svg.append('line')
+        .style("stroke","black")
+        .attr("x1",50)
+        .attr("y1",350)
+        .attr("x2",540)
+        .attr("y2",350)
+        .attr("id",'xaxisline');
 
 </script>
 </body>

@@ -10,73 +10,275 @@ var modelCommands = []; //Insert Lisp commands here.
 var screenObjects;
 setTimeout(function(){
 
-    screenObjects = [
-  //screen object declaration here. specification in documentation.
-      //{type : "Line", id : "line1", width: 10, change : "static"}, //Newer inline styles in chrome.
-      //{type : "Line", id : "line2", width: 10, change : "static"},
-      //{type : "Line", id : "line3", width: 10, change : "static"}, //Newer inline styles in chrome.
-      {type : "Oval", id : "point10", color:"green", change : "static"},
-      {type : "Oval", id : "point11", color:"green", change : "static"}, //Newer inline styles in chrome.
-      {type : "Oval", id : "point12", color:"green", change : "static"},
-      {type : "Oval", id : "point13", color:"green", change : "static"},
-      {type : "Oval", id : "point14", color:"green", change : "static"},
-      {type : "Oval", id : "point15", color:"green", change : "static"},
-        //{type : "Line", id : "line0", change : "static", color : "green"},
-        {type : "Label", id : "label0", color:"black", change : "static"},
-        {type : "Label", id : "label1", color:"black",change : "static"},
-        {type : "Label", id : "label2", color:"black", change : "static"},
-        {type: "Label", id: "labeltitle0",color: "black",change: "static"},
-        {type : "Rectangle", id : "rectangle0", change : "static"},
-        {type : "Rectangle", id : "rectangle1", change : "static"},
-        {type : "Rectangle", id : "rectangle2", change : "static"},
-      //  {type : "Line", id : "xaxis", change : "static", color : "black"},
-      //  {type : "Line", id : "yaxis", change : "static", color : "black"},
+           screenObjects = [
+                               //  {type : "DiagonalLine", id : "specialLine", color:"red", change : "static"},
+                            
+                            //screen object declaration here. specification in documentation.
+                            
+                            
+                            //{type : "Line", id : "line1", width: 10, change : "static"}, //Newer inline styles in chrome.
+                            
+                            
+                            //{type : "Line", id : "line2", width: 10, change : "static"},
+                            
+                            
+                            //{type : "Line", id : "line3", width: 10, change : "static"}, //Newer inline styles in chrome.
+                            
 
-        {type : "Label", id : "xians0",  change : "static"},
-        {type : "Label", id : "xians1", change : "static"},
-        {type : "Label", id : "xians2", change : "static"},
-        {type : "Label", id : "xians3",  change : "static"},
-        {type : "Label", id : "xians4", change : "static"},
-         {type : "Label", id : "xians5",  change : "static"},
+                            {type : "Oval", id : "point10", color:"green", change : "static"},
+                            
 
-        {type : "Label", id : "yams0", change : "static"},
-        {type : "Label", id : "yams1", change : "static"},
-        {type : "Label", id : "yams2", change : "static"},
-        {type : "Label", id : "yams3", change : "static"},
-        {type : "Label", id : "yams4", change : "static"},
+                            {type : "Oval", id : "point11", color:"green", change : "static"}, //Newer inline styles in chrome.
+                            
+                            
+                            {type : "Oval", id : "point12", color:"green", change : "static"},
+                            
+                            
+                            {type : "Oval", id : "point13", color:"green", change : "static"},
+                            
+                            
+                            {type : "Oval", id : "point14", color:"green", change : "static"},
+                            
+                            
+                            {type : "Oval", id : "point15", color:"green", change : "static"},
 
-        {type : "Line", id : "xline0",  change : "static"},
-        {type : "Line", id : "xline1", change : "static"},
-        {type : "Line", id : "xline2", change : "static"},
-        {type : "Line", id : "xline3",  change : "static"},
-        {type : "Line", id : "xline4", change : "static"},
-        {type : "Line", id : "xline5",  change : "static"},
+                            
+                            //{type : "Line", id : "line0", change : "static", color : "green"},
+                            
+                            
+                            {type : "Label", id : "label0", color:"black", change : "static"},
+                            
+                            
+                            {type : "Label", id : "label1", color:"black",change : "static"},
+                            
+                            
+                            {type : "Label", id : "label2", color:"black", change : "static"},
+                            
+                            
+                            {type: "Label", id: "labeltitle0",color: "black",change: "static"},
+                            
+                            
+                            {type : "Rectangle", id : "rectangle0", change : "static"},
+                            
+                            
+                            {type : "Rectangle", id : "rectangle1", change : "static"},
+                            
+                            
+                            {type : "Rectangle", id : "rectangle2", change : "static"},
+                            
+                            
+                            //  {type : "Line", id : "xaxis", change : "static", color : "black"},
+                            
+                            
+                            //  {type : "Line", id : "yaxis", change : "static", color : "black"},
+                            
+                            
+                            
+                            
+                            
+                            {type : "Label", id : "xians0",  change : "static"},
+                            
+                            
+                            {type : "Label", id : "xians1", change : "static"},
+                            
+                            
+                            {type : "Label", id : "xians2", change : "static"},
+                            
+                            
+                            {type : "Label", id : "xians3",  change : "static"},
+                            
+                            
+                            {type : "Label", id : "xians4", change : "static"},
+                            
+                            
+                            {type : "Label", id : "xians5",  change : "static"},
+                            
+                            
+                            
+                            
+                            
+                            {type : "Label", id : "yams0", change : "static"},
+                            
+                            
+                            {type : "Label", id : "yams1", change : "static"},
+                            
+                            
+                            {type : "Label", id : "yams2", change : "static"},
+                            
+                            
+                            {type : "Label", id : "yams3", change : "static"},
+                            
+                            
+                            {type : "Label", id : "yams4", change : "static"},
+                            
+                            
+                            
+                            
+                            
+                            {type : "Line", id : "xline0",  change : "static"},
+                            
+                            
+                            {type : "Line", id : "xline1", change : "static"},
+                            
+                            
+                            {type : "Line", id : "xline2", change : "static"},
+                            
+                            
+                            {type : "Line", id : "xline3",  change : "static"},
+                            
+                            
+                            {type : "Line", id : "xline4", change : "static"},
+                            
+                            
+                            {type : "Line", id : "xline5",  change : "static"},
+                            
+                            
+                            
+                            
+                            
+                            {type : "Line", id : "yline0", change : "static"},
+                            
+                            
+                            {type : "Line", id : "yline1", change : "static"},
+                            
+                            
+                            {type : "Line", id : "yline2", change : "static"},
+                            
+                            
+                            {type : "Line", id : "yline3", change : "static"},
+                            
+                            
+                            {type : "Line", id : "yline4", change : "static"},
+                            
+                            
+                            
+                            
+                            
+                            //{type : "Line", id : "xis", change : "static"},
+                            
+                            
+                            //{type : "Line", id : "yis", change : "static"},
+                            
+                            
+                            
 
-        {type : "Line", id : "yline0", change : "static"},
-        {type : "Line", id : "yline1", change : "static"},
-        {type : "Line", id : "yline2", change : "static"},
-        {type : "Line", id : "yline3", change : "static"},
-        {type : "Line", id : "yline4", change : "static"},
 
-        //{type : "Line", id : "xis", change : "static"},
-        //{type : "Line", id : "yis", change : "static"},
+                            {type : "Oval", id : "point20", color:"orange", change : "static"},
+                            
 
-        {type : "Oval", id : "point20", color:"orange", change : "static"},
-        {type : "Oval", id : "point21", color:"orange", change : "static"},
-      {type : "Oval", id : "point22", color:"orange", change : "static"}, //Newer inline styles in chrome.
-      {type : "Oval", id : "point23", color:"orange", change : "static"},
-      {type : "Oval", id : "point24", color:"orange", change : "static"},
-      {type : "Oval", id : "point25", color:"orange", change : "static"},
+                            {type : "Oval", id : "point21", color:"orange", change : "static"},
 
-        //{type : "Line", id : "line1", change : "static", color : "orange"},
-        {type : "Oval", id : "point30", color:"red", change : "static"},
-      {type : "Oval", id : "point31", color:"red", change : "static"},
-      {type : "Oval", id : "point32", color:"red", change : "static"}, //Newer inline styles in chrome.
-      {type : "Oval", id : "point33", color:"red", change : "static"},
-      {type : "Oval", id : "point34", color:"red", change : "static"},
-      {type : "Oval", id : "point35", color:"red", change : "static"},
-        //{type : "Line", id : "line2", change : "static", color : "red"}
-  ];
+
+                            {type : "Oval", id : "point22", color:"orange", change : "static"}, //Newer inline styles in chrome.
+
+
+                            {type : "Oval", id : "point23", color:"orange", change : "static"},
+
+
+                            {type : "Oval", id : "point24", color:"orange", change : "static"},
+
+
+                            {type : "Oval", id : "point25", color:"orange", change : "static"},
+
+
+
+
+
+                            //{type : "Line", id : "line1", change : "static", color : "orange"},
+
+
+                            {type : "Oval", id : "point30", color:"red", change : "static"},
+
+
+                            {type : "Oval", id : "point31", color:"red", change : "static"},
+
+
+                            {type : "Oval", id : "point32", color:"red", change : "static"}, //Newer inline styles in chrome.
+
+
+                            {type : "Oval", id : "point33", color:"red", change : "static"},
+
+
+                            {type : "Oval", id : "point34", color:"red", change : "static"},
+
+
+                            {type : "Oval", id : "point35", color:"red", change : "static"},
+
+
+                            //{type : "Line", id : "line2", change : "static", color : "red"}
+                            
+                            
+
+
+                             
+                             {type : "DiagonalLine", id : "line00", color:"green", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line01", color:"green", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line02", color:"green", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line03", color:"green", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line04", color:"green", change : "static"},
+                             
+
+
+                            
+                            
+                            {type : "DiagonalLine", id : "line1000", color:"orange", change : "static"},
+                            
+                            
+
+                             
+
+                             {type : "DiagonalLine", id : "line11", color:"orange", change : "static"},
+
+
+                             {type : "DiagonalLine", id : "line12", color:"orange", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line13", color:"orange", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line14", color:"orange", change : "static"},
+                             
+                             
+                             
+                             
+                             
+                             {type : "DiagonalLine", id : "line20", color:"red", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line21", color:"red", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line22", color:"red", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line23", color:"red", change : "static"},
+                             
+                             
+                             {type : "DiagonalLine", id : "line24", color:"red", change : "static"},
+                             
+                             
+                            
+                            {type : "Line", id : "yaxisline",  change : "static"},
+                            
+                            
+                            {type : "Line", id : "xaxisline",  change : "static"},
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            ];
 
 },1);
 
@@ -152,12 +354,12 @@ ws.onopen = function() {
 
     //If you wanted to manually specify an object for some reason do that here. IE objects not in page.
     //Not in webpage object declaration would look like {id: "itemID", width: 22, height : 23, x: 24, y: 25,type : "Line", color : “white”};
-    console.log(intialArray.length);
+    //console.log(intialArray.length);
     if(undefined !== screenObjects) {
         for (var i = 0; i < screenObjects.length; i++) {
             if (validObject(screenObjects[i].id, true)) {
                 intialArray.push(updateAllItemValues(screenObjects[i]));
-                console.log(screenObjects[i].id);
+                //console.log(screenObjects[i].id);
             }
         }
         ;
@@ -165,11 +367,11 @@ ws.onopen = function() {
 
     if(debugInitMSG){
         for (var i = 0; i < intialArray.length; i++) {
-            console.log(intialArray[i])
+            //console.log(intialArray[i])
         };
     }
 
-    console.log(intialArray.length);
+    //console.log(intialArray.length);
 
     sendCommands();//sends lisp commands
 
@@ -722,22 +924,96 @@ var updateAllItemValues = function(currentObject){
         domOfCurrent = document.getElementById(currentObject.id);
         toPush = getObjectXYHW(currentObject.id);
         toPush.id = (currentObject.id)
+        console.log(toPush.id);
+        console.log(toPush.x);
+        console.log(toPush.y);
+        console.log(toPush.width);
+        console.log(toPush.height);
     } else{
         domOfCurrent = currentObject.id.domLocation;
         toPush = getObjectXYHW(currentObject.id.domLocation);
         toPush.id = (currentObject.id.name)
+        console.log(toPush.id);
+        console.log(toPush.x);
+        console.log(toPush.y);
+        console.log(toPush.width);
+        console.log(toPush.height);
     }
 
+    //console.log(domOfCurrent);
 
     if(currentObject.type == "Label"){
         toPush.stringVal = domOfCurrent.textContent;
         toPush.color = getColor(domOfCurrent,currentObject, "0");
         toPush.type = "Label";
     }
+    else if(currentObject.type == "DiagonalLine") {//added by Liang Dong
+
+        toPush.type = "DiagonalLine";
+        var h = toPush.height;
+        var w = toPush.width;
+
+
+        toPush.x1 = domOfCurrent.getAttribute('x1');
+        toPush.x2 = domOfCurrent.getAttribute('x2');
+        toPush.y1 = domOfCurrent.getAttribute('y1');
+        toPush.y2 = domOfCurrent.getAttribute('y2');
+
+        console.log(toPush.x1);
+        console.log(toPush.y1);
+        console.log(toPush.x2);
+        console.log(toPush.y2);
+
+            toPush.x1 = toPush.x;
+            toPush.x2 = toPush.x + toPush.width;
+
+
+
+        if(parseInt(toPush.y1) > parseInt(toPush.y2))
+        {
+            toPush.y1 = toPush.y + toPush.height;
+            toPush.y2 = toPush.y;
+        }
+        else
+        {
+            toPush.y1 = toPush.y;
+            toPush.y2 = toPush.y + toPush.height;
+        }
+
+        console.log(toPush.x1);
+        console.log(toPush.y1);
+        console.log(toPush.x2);
+        console.log(toPush.y2);
+
+        if(domOfCurrent.getAttribute("stroke-width") != null){
+            if(h== 0 && w != 0 ){
+                toPush.height = domOfCurrent.getAttribute("stroke-width").replace(/[^\d.-]/g,'');
+                toPush.y = toPush.y - toPush.height/2;
+
+            }
+            else if(h != 0 && w== 0){
+                toPush.width = domOfCurrent.getAttribute("stroke-width").replace(/[^\d.-]/g,'');
+                toPush.x = toPush.x - toPush.width/2;
+            }
+        } else {
+            if(h == 0 && w!= 0){
+                toPush.height = lineWidth;
+                toPush.y = toPush.y - toPush.height/2;
+            } else if(h != 0 && w == 0){
+                toPush.width = lineWidth;
+                toPush.x = toPush.x - toPush.width/2;
+            }
+        }
+        toPush.color = getColor(domOfCurrent,currentObject, "0");
+        
+    }
     else if(currentObject.type == "Line"){
         toPush.type = "Line";
         var h = toPush.height;
         var w = toPush.width;
+        //console.log(h);
+        //console.log(w);
+
         if(domOfCurrent.getAttribute("stroke-width") != null){
             if(h== 0 && w != 0 ){
                 toPush.height = domOfCurrent.getAttribute("stroke-width").replace(/[^\d.-]/g,'');

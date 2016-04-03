@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<img lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任务一：零基础HTML编码</title>
+    <script src="d3/d3.v3.min.js"></script>
+    <style>
+        .axis line,
+        .axis path{
+            fill:none;
+            stroke: #000;
+        }
+        .axis path{
+            font-size: 26px;
+        }
+    </style>
+</head>
+<h1>网站一级标题</h1>
+<ul>
+    <li><a href="http://ife.baidu.com/static/joinhelp.html">导航链接一</a></li>
+    <li><a href="http://ife.baidu.com/static/joinhelp.html">导航链接二</a></li>
+    <li><a href="http://ife.baidu.com/static/joinhelp.html">导航链接三</a></li>
+    <li><a href="http://ife.baidu.com/static/joinhelp.html">导航链接四</a></li>
+</ul>
+<h1>网站一级标题</h1>
+<h2>网站一级标题</h2>
+<br>
+<p>文章作者 文章发表时间</p>
+<br>
+<p>
+    这是一个很长很长的段落，<a href="http://ife.baidu.com">这里有一个链接链接到http://ife.baidu.com</a>是我们和百度校园品牌部举办了前端技术竞赛，这个竞赛是面向在校生大学生举办的，所以很抱歉，需要大家按照在校生和非在校生分开组队。对于非在校生，您仍然可以完整地参加整个春季班的所有任务实践、分享和交流过程。只是无法参加竞赛排名和评奖的环节。
+</p>
+<img src="selectgraph.jpg"></img>
+<table border="1">
+    <tr><th>表头</th><th>表头</th><th>表头</th></tr>
+    <tr><td>表内容单元格</td><td>表内容单元格</td><td><a href="">操作</a></td></tr>
+    <tr><td>表内容单元格</td><td>表内容单元格</td><td><a href="">操作</a></td></tr>
+    <tr><td>表内容单元格</td><td>表内容单元格</td><td><a href="">操作</a></td></tr>
+    <tr><td>表内容单元格</td><td>表内容单元格</td><td><a href="">操作</a></td></tr>
+    <tr><td>总计</td><td colspan="2">1000</td></tr>
+</table>
+<h2>这里以后是一个侧栏，这是侧栏的标题</h2>
+<h2>侧栏注册窗口的标题</h2>
+<form>
+    <p><label for="email">请输入邮箱地址：<input type="email" placeholder="这是一个文本输入框"></label></p>
+    <p>邮箱地址请按要求格式输入</p>
+    <p>
+        <label for="password">请输入密码：<input type="password" placeholder="这是一个文本输入框"></label>
+        <label for="password">请重复输入密码：<input type="password" placeholder="这是一个文本输入框"></label>
+    </p>
+
+</form>
+<script>
+    var body = d3.select("body");
+    var svg = body.append("svg");
+    svg.append("circle")
+            .style("fill", "yellow")
+            .attr('cx', 20)
+            .attr('cy', 20)
+            .attr('r', 10)
+            .attr('stroke','black')
+            .attr('stroke-width',3);
+    var scale = d3.scale.linear();
+    scale.domain([0,10]);
+    scale.range([0,100]);
+    svg.append("text")
+            .attr("x",90)
+            .attr("y",100)
+            .text('hello world');
+
+    var x = d3.scale.linear()
+            .domain([0,10])
+            .range([10,400])
+
+    var xAxis = d3.svg.axis()
+            .scale(x)
+
+    svg.append("g").call(xAxis)
+            .attr('class','axis');
+</script>
+</body>
+</html>
