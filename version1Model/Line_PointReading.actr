@@ -90,7 +90,6 @@
     +imaginal>
         isa array
         letter =letter
-        !output!(=letter)
     -visual-location>
     -visual>
 )
@@ -196,7 +195,6 @@
         color =currentcolor
     -visual-location>
     -visual>
-        !output!(=currentcolor)
 )
 
 (p save-color
@@ -245,7 +243,6 @@
         state attend-xaxis
         currentx =screen-x
         currenty =screen-y
-        !output!(=screen-y)
 )
 
 (p read-x-axis
@@ -261,7 +258,6 @@
         current =currenttime
     -visual-location>
     -visual>
-        !output!(=currenttime)
 )
 
 (p justify-xaxis1
@@ -273,7 +269,6 @@
 ==>
     =goal>
         state read-line
-        !output!(=currenttime)
     -visual-location>
     -visual>
 )
@@ -348,7 +343,6 @@
         state attendPoint
         currentx =screen-x
         currenty =screen-y
-        !output!(=screen-y)
 )
 
 (p read-point
@@ -417,7 +411,6 @@
         state attend-yaxis
         currentx =screen-x
         currenty =screen-y
-        !output!(=screen-y)
 )
 
 (p read-y-axis
@@ -433,7 +426,6 @@
         currentvalue =currentvalue
     -visual-location>
     -visual>
-        !output!(=currentvalue)
 )
 
 (p locate-y-axish
@@ -472,7 +464,6 @@
         state attend-yaxish
         currentx =screen-x
         currenty =screen-y
-        !output!(=screen-y)
 )
 
 (p read-y-axish
@@ -488,7 +479,6 @@
         currentvalueh =currentvalueh
     -visual-location>
     -visual>
-        !output!(=currentvalueh)
 )
 
 
@@ -503,7 +493,6 @@
         ISA         best-point
         state 	morevalue
         comparisonresult =comparisonresult
-        !output!(=comparisonresult)
 )
 
 (p decreaseValue
@@ -537,7 +526,6 @@
         screen-x lowest
     =goal>
         state locate-xaxis
-        !output!(=current-y)
 )
 
 (p justify-xaxis2
@@ -549,7 +537,6 @@
 ==>
     =goal>
         state search-up-xaxis
-        !output!(=currenttime)
     -visual-location>
     -visual>
 )
@@ -564,7 +551,6 @@
 ==>
     =goal>
         state search-down-xaxis
-        !output!(=currenttime)
     -visual-location>
     -visual>
 )
@@ -608,7 +594,6 @@
         screen-x lowest
     =goal>
         state locate-xaxis
-        !output!(=current-y)
 )
 
 (spp retrieve-color1 :u 11)

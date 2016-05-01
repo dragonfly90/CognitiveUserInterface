@@ -8,3 +8,6 @@ mydata.to_csv("data2.csv", sep='\t', encoding='utf-8')
 #with open('data.txt', 'w') as outfile:
 #    json.dump(mydata, outfile)
 #print mydata
+
+mydata = Quandl.get("GEOCOMP/0_7_2_112")
+print mydata
