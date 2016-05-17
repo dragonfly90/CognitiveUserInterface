@@ -37,7 +37,7 @@ for j in range(1,21):
     previousx=-1
     previousy=-1
 
-    font=ImageFont.truetype("arial.ttf", 30)
+    font=ImageFont.truetype("arial.ttf", 40)
 
 
     region1=0
@@ -111,7 +111,7 @@ for j in range(1,21):
             if previousx!=-1:
                 x=gazepointsx[i]
                 y=gazepointsy[i]
-                draw.line((previousx,previousy, x,y), fill=(0,0,0))
+                draw.line((previousx,previousy, x,y), fill=(0,0,0), width=1)
                 draw.ellipse((x-2, y-2, x+2, y+2),fill=(0,0,0))
                 previousx=x
                 previousy=y

@@ -318,6 +318,20 @@ var readyCommands = function(){
 
 }
 
+
+function stateChange(newState) {
+    setTimeout(function(){
+        if(newState == -1){alert('VIDEO HAS STOPPED');}
+    }, 5000);
+}
+
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+        end = new Date().getTime();
+    }
+}
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 ////////////Core Websocket activity here
@@ -325,6 +339,8 @@ var readyCommands = function(){
 
 //When connection is established. Adds all items to init array and sends that to the server.
 ws.onopen = function() {
+
+    wait(7000);
     console.log("Opened connection with ACT-R server")
     var intialArray = new Array();
 
